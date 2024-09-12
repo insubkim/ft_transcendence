@@ -1,0 +1,9 @@
+참고링크 
+https://www.w3schools.com/django/django_add_static_files.php
+
+자바스크립트 파일 로딩 하는방법
+
+my_tennis_club/members/static 에 js 파일 저장
+template 의 html 파일에 load static 구문 추가 
+
+python3 manage.py collectstatics  실행 

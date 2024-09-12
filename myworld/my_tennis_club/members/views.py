@@ -82,3 +82,7 @@ def three(request):
 def pong_main(request):
   template = loader.get_template("pong_main.html")
   return HttpResponse(template.render())
+
+def router(request):
+  template = loader.get_template("index.html")
+  return HttpResponse(template.render())
