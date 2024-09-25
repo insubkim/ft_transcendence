@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Three.js</title>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+  </body>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/"
+      }
+    }
+  </script>
+
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+    
+    let scene = new THREE.Scene();
+
+    scene.background = new THREE.Color("black");
+    
+    let camera = new THREE.PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+
+    // 카메라의 위치 설정 (x: 0, y: 0, z: 5)
+    camera.position.set(0, 0, 8);
+
+    let PLight = new THREE.PointLight();
+    let ALight = new THREE.AmbientLight();
+    PLight.position.set(50, 50, 50);
+    scene.add(PLight, ALight);
+    
+    let renderer = new THREE.WebGLRenderer({
+      canvas: document.querySelector("#canvas"),
+      antialias: true,
+    });
+    
+    document.body.appendChild(renderer.domElement);
+    
+    // Create the cube geometry (width, height, depth)
+    const box_geometry = new THREE.BoxGeometry(0.1, 0.5, 0.5);
+    
+    // Create the material for the cube (basic material with color)
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    
+    // Create the mesh by combining the geometry and material
+    const cube1 = new THREE.Mesh(box_geometry, material);
+    const cube2 = new THREE.Mesh(box_geometry, material);
+    
+    // Set cube position
+    cube1.position.x += 1.4;
+    cube1.position.y += 0.8;
+    
+    cube2.position.x -= 1.5;
+    cube2.position.y += 0.8;
+    
+    // Add the cube to the scene
+    scene.add(cube1);
+    scene.add(cube2);
+    
+    // Create a sphere geometry
+    const sphere_geometry = new THREE.SphereGeometry(0.03, 32, 32); // radius, width segments, height segments
+
+    // Combine geometry and material into a mesh
+    const sphere = new THREE.Mesh(sphere_geometry, material);
+    sphere.position.y += 0.8;
+
+    // Add the sphere to the scene
+    scene.add(sphere);
+
+    // 시점 이동 설정    
+    const controls = new OrbitControls(camera, renderer.domElement)
+    // 최대 최소 줌값 지정하기
+    controls.minDistance = 2
+    controls.maxDistance = 100
+    controls.maxPolarAngle = Math.PI / 2
+    controls.update()
+    
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    
+    // gltf 업로드
+    let loader = new GLTFLoader();
+    loader.load("img/model/2d_game_pong_table/scene.gltf", function (gltf) {
+      scene.add(gltf.scene);
+      renderer.render(scene, camera); // 랜더링
+    },
+    function ( xhr ) {
+      console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+    },
+    function ( error ) {
+      console.log( 'An error happened' );
+    });
+
+    
+    let game_start = false;
+
+    // Handle keyboard input
+    function handleKeyDown(event) {
+      const moveSpeed = 0.1;
+      switch(event.code) {
+        case 'Enter':
+          game_start = true;
+          break;
+        case 'ArrowUp':
+          cube1.position.z += moveSpeed;
+          break;
+        case 'ArrowDown':
+          cube1.position.z -= moveSpeed;
+          break;
+        case 'KeyE':
+          cube1.position.x += moveSpeed;
+          break;
+        case 'KeyD':
+          cube1.position.x -= moveSpeed;
+          break;
+        case 'KeyW':
+          cube2.position.z += moveSpeed;
+          break;
+        case 'KeyS':
+          cube2.position.z -= moveSpeed;
+          break;
+      }
+      console.log(cube1.position);
+    }
+
+    // Add event listener for keydown events
+    window.addEventListener('keydown', handleKeyDown);
+    
+    const board_coord = {
+      top : -0.9, //z
+      bottom : 0.5, //z
+      left : -1.3, //x 
+      right : 1.3  //x
+    }
+
+    let dx = 0.01;
+    let dy = 0.01;
+    let dxd = 0;
+    let dyd = 0;
+    
+    function moveBall() {
+        if (sphere.position.z < board_coord.top) { // 위
+          console.log('hit board top!');
+          dyd = 1;
+        }
+
+        if (sphere.position.z > board_coord.bottom) { // 아래
+          console.log('hit board bottom!');
+          dyd = 0;
+        } 
+
+        if ( // 왼쪽
+            sphere.position.x < cube1.position.x &&
+            sphere.position.x > cube1.position.x - 0.1 &&
+            sphere.position.z > cube1.position.z - 0.25 &&
+            sphere.position.z < cube1.position.z + 0.25
+        ) {
+            dxd = 0;
+        }
+        
+        if ( // 오른쪽 
+            sphere.position.x > cube2.position.x &&
+            sphere.position.x < cube2.position.x + 0.1 &&
+            sphere.position.z > cube2.position.z - 0.25 &&
+            sphere.position.z < cube2.position.z + 0.25
+        ) {
+            dxd = 1;
+        }
+        
+        if (
+            sphere.position.x <= board_coord.left - 1 ||
+            sphere.position.x >= board_coord.right + 1
+        ) {
+            game_start = false;
+
+            sphere.position.x = 0;
+            sphere.position.z = 0;
+            requestAnimationFrame(animate);
+            return;
+        }
+
+        sphere.position.z += dy * (dyd == 0 ? -1 : 1);
+        sphere.position.x += dx * (dxd == 0 ? -1 : 1);
+        
+        requestAnimationFrame(animate);
+      }
+
+    function animate() {
+      controls.update()
+      renderer.render(scene, camera)
+      
+      if (game_start){
+        moveBall(dx, dy, dxd, dyd);
+      } else {
+        requestAnimationFrame(animate);
+      }
+    }
+    animate();
+
+  </script>
+</html>
