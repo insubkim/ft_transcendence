@@ -53,13 +53,11 @@ export class App {
 		// 애니메이션 관련 변수
 		this._animationId = null;
 	}
-	
+
 	dispose() {
 		// 애니메이션 루프 종료
-		if (this._animationId) {
-			cancelAnimationFrame(this._animationId);
-			this._animationId = null;
-		}
+		if (this._animationId)
+			this.stopAnimation();
 
 		// 씬에서 모든 객체 제거
 		this._scene.traverse((object) => {
