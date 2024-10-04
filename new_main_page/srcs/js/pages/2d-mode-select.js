@@ -19,6 +19,6 @@ export function twoDModeSel(currentLanguage) {
 	`
 	const twoDBackBtn = document.getElementById('2d-back-button');
 	if (twoDBackBtn)
-		twoDBackBtn.addEventListener('click', () => renderPage('game-select', 0));
+		twoDBackBtn.addEventListener('click', () => renderPage('game-select'));
 }
 

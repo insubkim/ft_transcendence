@@ -15,6 +15,10 @@ export const languages = {
 		goBack: "Back",
 		threeDEasy: "Easy",
 		threeDHard: "Hard",
+		player1Nick: "Enter nickname for P1",
+		player2Nick: "Enter nickname for P2",
+		player3Nick: "Enter nickname for P3",
+		player4Nick: "Enter nickname for P4",
 	},
 	ko: {
 		welcome: "PONG에 오신 것을 환영합니다!",
@@ -29,6 +33,10 @@ export const languages = {
 		goBack: "뒤로가기",
 		threeDEasy: "쉬움",
 		threeDHard: "어려움",
+		player1Nick: "선수1의 이름을 입력",
+		player2Nick: "선수2의 이름을 입력",
+		player3Nick: "선수3의 이름을 입력",
+		player4Nick: "선수4의 이름을 입력",
 	},
 	ja: {
 		welcome: "PONGへようこそ!",
@@ -43,6 +51,10 @@ export const languages = {
 		goBack: "前のページへ",
 		threeDEasy: "普通",
 		threeDHard: "速い",
+		player1Nick: "1番の選手名入力",
+		player2Nick: "2番の選手名入力",
+		player3Nick: "3番の選手名入力",
+		player4Nick: "4番の選手名入力",
 	}
 };
 

@@ -71,3 +71,11 @@ body, html {
 .setting-container button:hover {
 	background-color: #45a049;
 }
+
+.nickname {
+	margin: 1% auto;
+	font-size: 20px;
+	font-family: Jaro;
+	width: fit-content;
+	text-align: center;
+}

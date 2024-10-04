@@ -19,7 +19,8 @@ const hashList = [
 	'game-select',
 	'2d-mode-select',
 	'3d-mode-select',
-	'3d-setting'
+	'3d-setting',
+	'3d-game',
 ];
 
 export function renderPage(hash) {
