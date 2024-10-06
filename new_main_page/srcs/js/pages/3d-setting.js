@@ -3,6 +3,7 @@ import { App } from "../game/3D/option-select.js";
 import { renderPage } from "../router/router.js";
 import { languages } from "../language.js";
 export let appInstance = null;
+export let nicknames = [];
 
 export function threeDSetting(currentLanguage) {
 	console.log('here');
@@ -21,6 +22,8 @@ export function threeDSetting(currentLanguage) {
 			<label style="color: #C0C0C0;"><input type="radio" name="color" value="1"> ⬤</label><br>
 			<label style="color: #FF00FF;"><input type="radio" name="color" value="2"> ⬤</label><br>
 		</form>
+		<input class="nickname" type="text" placeholder="${languages[currentLanguage].player1Nick}">
+		<input class="nickname" type="text" placeholder="${languages[currentLanguage].player2Nick}">
 		<button class="back-button" id="game-start">${languages[currentLanguage].threeDStart}</button>
 		<button class="back-button" id="3d-back-button">${languages[currentLanguage].goBack}</button>
 	</div>
@@ -39,5 +42,17 @@ export function threeDSetting(currentLanguage) {
 		// 새로운 App 인스턴스 생성
 		appInstance = new App();
 		appInstance.startAnimation(); // 애니메이션 시작 (만약 startAnimation 메서드를 분리했다면)
+
+		startBtn.addEventListener('click', () => {
+			appInstance.dispose();
+			appInstance = null;
+			renderPage("3d-game");
+		})
+
+		backBtn.addEventListener('click', () => {
+			appInstance.dispose();
+			appInstance = null;
+			renderPage('3d-mode-select');
+		})
 	}
 }
