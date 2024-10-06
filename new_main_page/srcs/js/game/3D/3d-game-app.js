@@ -1,5 +1,8 @@
 import * as THREE from '../3Dmodules/three.module.js';
 import { OrbitControls } from '../3Dmodules/OrbitControls.js';
+import { renderPage } from '../../router/router.js';
+const appContainer = document.getElementById("app");
+
 
 class GameRenderer {
 	constructor(divContainer) {
@@ -45,6 +48,21 @@ class GameScene {
 		this._setupLight();
 		this._setupModels();
 	}
+
+	dispose() {
+        this._scene.traverse((object) => {
+            if (object.isMesh) {
+                object.geometry.dispose();
+                if (Array.isArray(object.material)) {
+                    object.material.forEach((material) => material.dispose());
+                } else if (object.material) {
+                    object.material.dispose();
+                }
+            }
+        });
+        // 씬 자체를 해제할 필요는 없습니다.
+        this._objects = {};
+    }
 
 	_setupLight() {
 		const ambientLight = new THREE.AmbientLight(0xffffff, 1);
@@ -206,6 +224,12 @@ class GameController {
 		this._detectKeyPress();
 	}
 
+    dispose() {
+        this._keyState = {};
+        this._isGameOver = false;
+        this.playerInfo = null;
+    }
+
 	_detectKeyPress() {
 		window.addEventListener('keydown', (event) => {
 			this._keyState[event.code] = true;
@@ -363,14 +387,25 @@ class GameController {
 class ScoreBoard {
 	static init() {
 		this._scoreBoard = document.createElement('div');
-		this._scoreBoard.style.position = 'absolute';
-		this._scoreBoard.style.top = '80px';
-		this._scoreBoard.style.width = '100%';
-		this._scoreBoard.style.textAlign = 'center';
-		this._scoreBoard.style.fontSize = '40px';
-		this._scoreBoard.style.color = '#ffffff';
-		document.body.appendChild(this._scoreBoard);
+		this._scoreBoard.classList.add('game-score');
+		appContainer.appendChild(this._scoreBoard);
 	}
+
+    static dispose() {
+        if (this._scoreBoard && this._scoreBoard.parentNode) {
+            this._scoreBoard.parentNode.removeChild(this._scoreBoard);
+            this._scoreBoard = null;
+        }
+        if (this._gameOverElement && this._gameOverElement.parentNode) {
+            this._gameOverElement.parentNode.removeChild(this._gameOverElement);
+            this._gameOverElement = null;
+        }
+        // 이벤트 리스너 제거
+        if (this._returnBtn) {
+            this._returnBtn.removeEventListener('click', () => renderPage('game-select'));
+            this._returnBtn = null;
+        }
+    }
 
 	static update(playerInfo) {
 		this._scoreBoard.innerHTML = `${playerInfo.player1Name}: ${playerInfo.player1Score} - ${playerInfo.player2Name}: ${playerInfo.player2Score}`;
@@ -378,23 +413,30 @@ class ScoreBoard {
 
 	static showGameOver(playerInfo) {
 		const gameOverText = document.createElement('div');
-		gameOverText.style.position = 'absolute';
-		gameOverText.style.top = '50%';
-		gameOverText.style.left = '50%';
-		gameOverText.style.transform = 'translate(-50%, -50%)';
-		gameOverText.style.fontSize = '48px';
-		gameOverText.style.color = '#ffffff';
-		gameOverText.style.textAlign = 'center';
-		let winner = playerInfo.player1Score >= 5 ? `${playerInfo.player1Name} Wins!` : `${playerInfo.player2Name} Wins!`;
+		gameOverText.classList.add('game-over');
+		const winner = playerInfo.player1Score >= 5 ? `${playerInfo.player1Name} Wins!` : `${playerInfo.player2Name} Wins!`;
 		gameOverText.innerHTML = `Game Over<br>${winner}`;
-		document.body.appendChild(gameOverText);
+
+		const returnBtn = document.createElement('button');
+		returnBtn.classList.add('game-over-button');
+		returnBtn.textContent = 'Return to the main page';
+
+		gameOverText.appendChild(returnBtn);
+		appContainer.appendChild(gameOverText);
+
+		returnBtn.addEventListener('click', () => renderPage('game-select'));
+
+		// 게임 오버 요소에 대한 참조 저장
+		this._gameOverElement = gameOverText;
+		this._returnBtn = returnBtn;
 	}
 }
-class ThreeGame {
-	constructor(speed, color, p1Name, p2Name) {
-		this._divContainer = document.getElementById('webgl-container');
+
+export class ThreeGame {
+	constructor(color, speed, p1Name, p2Name) {
+		this._divContainer = document.getElementById('3dpong');
 		this._renderer = new GameRenderer(this._divContainer);
-		this._scene = new GameScene(color, color === 0xC0C0C0 ? 0x000000 : 0xFFFFFF);
+		this._scene = new GameScene(Number(color), Number(color) === 0xC0C0C0 ? 0x000000 : 0xFFFFFF);
 		this._objects = this._scene.getObjects();
 		this._controller = new GameController(speed, this._objects, p1Name, p2Name);
 
@@ -459,12 +501,47 @@ class ThreeGame {
 	}
 
 	dispose() {
-		if (this._animationId) {
-			cancelAnimationFrame(this._animationId);
-			this._animationId = null;
+        if (this._animationId) {
+            cancelAnimationFrame(this._animationId);
+            this._animationId = null;
+        }
+        if (this._renderer) {
+            this._renderer.dispose();
+            this._renderer = null;
+        }
+        if (this._controller) {
+            this._controller.dispose();
+            this._controller = null;
+        }
+        if (this._scene) {
+            this._scene.dispose(); // GameScene에 dispose 메서드를 추가해야 합니다.
+            this._scene = null;
+        }
+        if (ScoreBoard) {
+            ScoreBoard.dispose();
+        }
+        if (this._onWindowResize) {
+            window.removeEventListener('resize', this._onWindowResize);
+            this._onWindowResize = null;
+        }
+		// Tween 중지 및 제거
+		if (this._camera1Tween) {
+			this._camera1Tween.stop();
+			this._camera1Tween = null;
 		}
-		this._renderer.dispose();
-		// 기타 리소스 해제 코드
+		if (this._camera2Tween) {
+			this._camera2Tween.stop();
+			this._camera2Tween = null;
+		}
+		// 모든 Tween 제거 (안전 장치)
+		TWEEN.removeAll();
+
+		// 기타 리소스 해제
+		this._divContainer = null;
+		this._objects = null;
+		this._camera1p = null;
+		this._camera2p = null;
+
 	}
 
 	_startCameraAnimation() {
@@ -492,9 +569,4 @@ class ThreeGame {
 			})
 			.start();
 	}
-}
-
-window.onload = function () {
-	const game = new ThreeGame(1, 0x8A2BE2, "Yusekim", "Inskim");
-	game.start();
 }

@@ -1,11 +1,13 @@
 // const appContainer = document.getElementById("app");
-// index.html의 <div>를 갈아끼우는식으로 작동함
+// index.html의 <div id="app">를 갈아끼우는식으로 작동함
 
 import { gameSelect } from '../pages/game-select.js';
 import { twoDModeSel } from '../pages/2d-mode-select.js';
 import { threeDModeSel } from '../pages/3d-mode-select.js';
 import { threeDSetting } from '../pages/3d-setting.js';
-const funcArray = [gameSelect, twoDModeSel, threeDModeSel, threeDSetting];
+import { threeDGame } from '../pages/3d-game.js'
+
+const funcArray = [gameSelect, twoDModeSel, threeDModeSel, threeDSetting, threeDGame];
 export const supportLangs = ['en', 'kr', 'jp'];
 // 함수 배열, 각각의 함수는 대응되는 페이지의 내용을 랜더링해줌
 
@@ -28,7 +30,9 @@ export function renderPage(hash) {
 	console.log(hash);
 
 	const currentLang = getCurLangHash();
-	funcArray[hashList.indexOf(hash)](currentLang);
+	let ret = funcArray[hashList.indexOf(hash)](currentLang);
+	if (ret)
+		hash = 'game-select';
 	window.location.hash = `#${currentLang}/` + hash;
 
 

@@ -19,7 +19,7 @@ export class App {
 		let ballSpeed = this._getSpeed();
 		this._vec.normalize().multiplyScalar(ballSpeed * 0.3);
 		const ballColors = [0x8A2BE2, 0xC0C0C0, 0xFF00FF];
-		this._ballColor = ballColors[this._getColor()];
+		this._ballColor = this._getColor();
 		this._ballWireColor = 0xFFFFFF;
 
 		this._setupCamera();
@@ -40,7 +40,7 @@ export class App {
 		const colorOptions = document.querySelectorAll('input[name="color"]');
 		colorOptions.forEach(button => {
 			button.addEventListener('change', () => {
-				this._ballColor = ballColors[this._getColor()];
+				this._ballColor = this._getColor();
 				this._ball.material.color.set(this._ballColor);
 				if (this._ballColor == ballColors[1]) {
 					this._ballWire.material.color.set(0x000000);

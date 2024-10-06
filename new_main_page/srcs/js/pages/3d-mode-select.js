@@ -20,4 +20,3 @@ export function threeDModeSel(currentLanguage) {
 	if (oneVoneBtn)
 		oneVoneBtn.addEventListener('click', () => renderPage('3d-setting'))
 }
-
