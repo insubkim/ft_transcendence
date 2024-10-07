@@ -77,8 +77,18 @@ function addLanguageChangeListeners() {
 			const page = currentPage || 'game-select'; // Default to 'game-select'
 
 			window.location.hash = `#${selectedLang}/${page}`;
+
+			document.getElementById('language-options').style.display = 'none';
 		});
 	});
+}
+
+function closeLangOptions(event) {
+	const langOptions = document.getElementById('language-options');
+	const langBtn = document.getElementById('globe-icon');
+
+	if (!langOptions.contains(event.target) && !langBtn.contains(event.target))
+		langOptions.style.display = 'none';
 }
 
 // Add language change listeners
@@ -86,3 +96,5 @@ addLanguageChangeListeners();
 
 // Language button click listener
 languageButton.addEventListener('click', langSelect);
+
+document.addEventListener('click', closeLangOptions);

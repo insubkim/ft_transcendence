@@ -4,8 +4,7 @@ import { renderPage } from "../router/router.js";
 import { languages } from "../language.js";
 export let gameSettings = [];
 export let nicknames = [];
-let appInstance = null;
-let isInitialLoad = true;
+export let ThreeDsettingApp = null;
 
 export function threeDSetting(currentLanguage) {
 	appContainer.innerHTML = `
@@ -35,18 +34,18 @@ export function threeDSetting(currentLanguage) {
 
 	if (startBtn && backBtn) {
 		// 기존 App 인스턴스가 있다면 해제
-		if (appInstance) {
-			appInstance.dispose();
-			appInstance = null;
+		if (ThreeDsettingApp) {
+			ThreeDsettingApp.dispose();
+			ThreeDsettingApp = null;
 		}
 
 		// 새로운 App 인스턴스 생성
-		appInstance = new App();
-		appInstance.startAnimation(); // 애니메이션 시작 (만약 startAnimation 메서드를 분리했다면)
+		ThreeDsettingApp = new App();
+		ThreeDsettingApp.startAnimation(); // 애니메이션 시작 (만약 startAnimation 메서드를 분리했다면)
 
 		startBtn.addEventListener('click', () => {
-			appInstance.dispose();
-			appInstance = null;
+			ThreeDsettingApp.dispose();
+			ThreeDsettingApp = null;
 
 			gameSettings = [];  // 기존 게임 설정을 초기화
 			gameSettings.push(document.querySelector('input[name="color"]:checked'));
@@ -66,28 +65,9 @@ export function threeDSetting(currentLanguage) {
 		})
 
 		backBtn.addEventListener('click', () => {
-			appInstance.dispose();
-			appInstance = null;
+			ThreeDsettingApp.dispose();
+			ThreeDsettingApp = null;
 			renderPage('3d-mode-select');
 		})
-
-		// 페이지 새로고침 또는 뒤로 가기 시에만 dispose 실행 (첫 로드 시 실행 X)
-		if (window.performance.navigation.type === 1 || window.performance.navigation.type === 2) {
-			isInitialLoad = false;  // 첫 로드 이후에는 dispose가 작동하도록 설정
-		}
-
-		window.addEventListener('popstate', () => {
-			if (!isInitialLoad && appInstance)
-				resetForm();
-		});
-
 	}
-}
-
-function resetForm() {
-	appInstance.dispose();
-	document.getElementById('ball-speed').reset(); // 속도 설정 폼 초기화
-	document.getElementById('ball-color').reset(); // 색상 설정 폼 초기화
-	document.getElementById('p1').value = "";	  // 플레이어 1 닉네임 초기화
-	document.getElementById('p2').value = "";	  // 플레이어 2 닉네임 초기화
 }

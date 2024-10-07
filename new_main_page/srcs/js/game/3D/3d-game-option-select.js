@@ -1,5 +1,4 @@
 import * as THREE from '../3Dmodules/three.module.js';
-import { OrbitControls } from '../3Dmodules/OrbitControls.js';
 
 export class App {
 	constructor() {

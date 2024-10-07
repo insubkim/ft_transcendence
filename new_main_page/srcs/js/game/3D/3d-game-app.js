@@ -50,19 +50,17 @@ class GameScene {
 	}
 
 	dispose() {
-        this._scene.traverse((object) => {
-            if (object.isMesh) {
-                object.geometry.dispose();
-                if (Array.isArray(object.material)) {
-                    object.material.forEach((material) => material.dispose());
-                } else if (object.material) {
-                    object.material.dispose();
-                }
-            }
-        });
-        // 씬 자체를 해제할 필요는 없습니다.
-        this._objects = {};
-    }
+		this._scene.traverse((object) => {
+			if (object.isMesh) {
+				object.geometry.dispose();
+				if (Array.isArray(object.material))
+					object.material.forEach((material) => material.dispose());
+				else if (object.material)
+					object.material.dispose();
+			}
+		});
+		this._objects = {};
+	}
 
 	_setupLight() {
 		const ambientLight = new THREE.AmbientLight(0xffffff, 1);
@@ -224,11 +222,11 @@ class GameController {
 		this._detectKeyPress();
 	}
 
-    dispose() {
-        this._keyState = {};
-        this._isGameOver = false;
-        this.playerInfo = null;
-    }
+	dispose() {
+		this._keyState = {};
+		this._isGameOver = false;
+		this.playerInfo = null;
+	}
 
 	_detectKeyPress() {
 		window.addEventListener('keydown', (event) => {
@@ -336,7 +334,8 @@ class GameController {
 		if (ball.position.x > 0) {
 			isPlayer1 = true;
 			paddlePos = p1PaddleGroup.position.clone();
-		} else {
+		}
+		else {
 			isPlayer1 = false;
 			paddlePos = p2PaddleGroup.position.clone();
 		}
@@ -355,7 +354,8 @@ class GameController {
 		if (Math.sqrt(zDiff ** 2 + yDiff ** 2) <= 0.5) {
 			this._ballVec.set(this._ballVec.x, 0, 0);
 			this._ballRot.set(0, 0, 0);
-		} else {
+		}
+		else {
 			let vecZ = zDiff / 5;
 			let vecY = yDiff / 5;
 			this._ballVec.z = -vecZ;
@@ -391,21 +391,21 @@ class ScoreBoard {
 		appContainer.appendChild(this._scoreBoard);
 	}
 
-    static dispose() {
-        if (this._scoreBoard && this._scoreBoard.parentNode) {
-            this._scoreBoard.parentNode.removeChild(this._scoreBoard);
-            this._scoreBoard = null;
-        }
-        if (this._gameOverElement && this._gameOverElement.parentNode) {
-            this._gameOverElement.parentNode.removeChild(this._gameOverElement);
-            this._gameOverElement = null;
-        }
-        // 이벤트 리스너 제거
-        if (this._returnBtn) {
-            this._returnBtn.removeEventListener('click', () => renderPage('game-select'));
-            this._returnBtn = null;
-        }
-    }
+	static dispose() {
+		if (this._scoreBoard && this._scoreBoard.parentNode) {
+			this._scoreBoard.parentNode.removeChild(this._scoreBoard);
+			this._scoreBoard = null;
+		}
+		if (this._gameOverElement && this._gameOverElement.parentNode) {
+			this._gameOverElement.parentNode.removeChild(this._gameOverElement);
+			this._gameOverElement = null;
+		}
+		// 이벤트 리스너 제거
+		if (this._returnBtn) {
+			this._returnBtn.removeEventListener('click', () => renderPage('game-select'));
+			this._returnBtn = null;
+		}
+	}
 
 	static update(playerInfo) {
 		this._scoreBoard.innerHTML = `${playerInfo.player1Name}: ${playerInfo.player1Score} - ${playerInfo.player2Name}: ${playerInfo.player2Score}`;
@@ -501,29 +501,29 @@ export class ThreeGame {
 	}
 
 	dispose() {
-        if (this._animationId) {
-            cancelAnimationFrame(this._animationId);
-            this._animationId = null;
-        }
-        if (this._renderer) {
-            this._renderer.dispose();
-            this._renderer = null;
-        }
-        if (this._controller) {
-            this._controller.dispose();
-            this._controller = null;
-        }
-        if (this._scene) {
-            this._scene.dispose(); // GameScene에 dispose 메서드를 추가해야 합니다.
-            this._scene = null;
-        }
-        if (ScoreBoard) {
-            ScoreBoard.dispose();
-        }
-        if (this._onWindowResize) {
-            window.removeEventListener('resize', this._onWindowResize);
-            this._onWindowResize = null;
-        }
+		if (this._animationId) {
+			cancelAnimationFrame(this._animationId);
+			this._animationId = null;
+		}
+		if (this._renderer) {
+			this._renderer.dispose();
+			this._renderer = null;
+		}
+		if (this._controller) {
+			this._controller.dispose();
+			this._controller = null;
+		}
+		if (this._scene) {
+			this._scene.dispose();
+			this._scene = null;
+		}
+		if (ScoreBoard) {
+			ScoreBoard.dispose();
+		}
+		if (this._onWindowResize) {
+			window.removeEventListener('resize', this._onWindowResize);
+			this._onWindowResize = null;
+		}
 		// Tween 중지 및 제거
 		if (this._camera1Tween) {
 			this._camera1Tween.stop();
@@ -541,7 +541,7 @@ export class ThreeGame {
 		this._objects = null;
 		this._camera1p = null;
 		this._camera2p = null;
-
+		console.log('3D game resources dispose complete');
 	}
 
 	_startCameraAnimation() {
