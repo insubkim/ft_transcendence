@@ -1,8 +1,7 @@
 import * as THREE from '../3Dmodules/three.module.js';
 import { OrbitControls } from '../3Dmodules/OrbitControls.js';
-import { renderPage } from '../../router/router.js';
+import { renderPage } from '../../router.js';
 const appContainer = document.getElementById("app");
-
 
 class GameRenderer {
 	constructor(divContainer) {
@@ -385,9 +384,10 @@ class GameController {
 }
 
 class ScoreBoard {
-	static init() {
+	static init(gameNum) {
 		this._scoreBoard = document.createElement('div');
 		this._scoreBoard.classList.add('game-score');
+		this._gameNum = gameNum;
 		appContainer.appendChild(this._scoreBoard);
 	}
 
@@ -408,32 +408,41 @@ class ScoreBoard {
 	}
 
 	static update(playerInfo) {
-		this._scoreBoard.innerHTML = `${playerInfo.player1Name}: ${playerInfo.player1Score} - ${playerInfo.player2Name}: ${playerInfo.player2Score}`;
+		let gameNumTxt = '';
+		if (this._gameNum)
+			gameNumTxt = `Game ` + this._gameNum + `<br>`;
+		this._scoreBoard.innerHTML = gameNumTxt + `${playerInfo.player1Name}: ${playerInfo.player1Score} - ${playerInfo.player2Name}: ${playerInfo.player2Score}`;
 	}
 
 	static showGameOver(playerInfo) {
 		const gameOverText = document.createElement('div');
 		gameOverText.classList.add('game-over');
-		const winner = playerInfo.player1Score >= 5 ? `${playerInfo.player1Name} Wins!` : `${playerInfo.player2Name} Wins!`;
-		gameOverText.innerHTML = `Game Over<br>${winner}`;
+		const winner = playerInfo.player1Score >= 5 ? `${playerInfo.player1Name}` : `${playerInfo.player2Name}`;
+		gameOverText.innerHTML = `Game Over<br>${winner}` + ' Wins!';
+		appContainer.appendChild(gameOverText);
 
 		const returnBtn = document.createElement('button');
 		returnBtn.classList.add('game-over-button');
-		returnBtn.textContent = 'Return to the main page';
-
+		if (this._gameNum && this._gameNum < 3) {
+			returnBtn.textContent = 'Go to the next match';
+			returnBtn.addEventListener('click', () => {
+				this._onGameOverCallback();
+			});
+		}
+		else {
+			returnBtn.textContent = 'Return to the main page';
+			returnBtn.addEventListener('click', () => renderPage('game-select'));
+		}
 		gameOverText.appendChild(returnBtn);
-		appContainer.appendChild(gameOverText);
 
-		returnBtn.addEventListener('click', () => renderPage('game-select'));
 
-		// 게임 오버 요소에 대한 참조 저장
 		this._gameOverElement = gameOverText;
 		this._returnBtn = returnBtn;
 	}
 }
 
 export class ThreeGame {
-	constructor(color, speed, p1Name, p2Name) {
+	constructor(gameNum, color, speed, p1Name, p2Name) {
 		this._divContainer = document.getElementById('3dpong');
 		this._renderer = new GameRenderer(this._divContainer);
 		this._scene = new GameScene(Number(color), Number(color) === 0xC0C0C0 ? 0x000000 : 0xFFFFFF);
@@ -454,6 +463,7 @@ export class ThreeGame {
 
 		// 카메라 애니메이션 실행
 		this._startCameraAnimation();
+		this._onGameOverCallback = null;
 	}
 
 	_setupCameras() {
@@ -486,7 +496,8 @@ export class ThreeGame {
 		this._camera2p.updateProjectionMatrix();
 	}
 
-	start() {
+	start(onGameOverCallback) {
+		this._onGameOverCallback = onGameOverCallback;
 		this._animationId = requestAnimationFrame(this._animate.bind(this));
 	}
 
@@ -495,8 +506,11 @@ export class ThreeGame {
 
 		this._renderer.render(this._scene.getScene(), this._camera1p, this._camera2p);
 
-		if (!this._controller._isGameOver) {
+		if (!this._controller._isGameOver)
 			this._animationId = requestAnimationFrame(this._animate.bind(this));
+		else {
+			if (this._onGameOverCallback)
+				this._onGameOverCallback();
 		}
 	}
 

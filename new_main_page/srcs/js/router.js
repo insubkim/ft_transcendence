@@ -1,20 +1,22 @@
 // const appContainer = document.getElementById("app");
 // index.html의 <div id="app">를 갈아끼우는식으로 작동함
 
-import { gameSelect } from '../pages/game-select.js';
-import { twoDModeSel } from '../pages/2d-mode-select.js';
-import { threeDModeSel } from '../pages/3d-mode-select.js';
-import { threeDSetting } from '../pages/3d-setting.js';
-import { threeDGame } from '../pages/3d-game.js'
+import { gameSelect } from './pages/game-select.js';
+import { twoDModeSel } from './pages/2d-mode-select.js';
+import { threeDModeSel } from './pages/3d-mode-select.js';
+import { threeDSetting } from './pages/3d-setting.js';
+import { threeDTourSetting } from './pages/3d-tour-setting.js';
+import { threeDGame } from './pages/3d-game.js'
+import { threeDTourGame } from './pages/3d-tour-game.js';
 
-const funcArray = [gameSelect, twoDModeSel, threeDModeSel, threeDSetting, threeDGame];
+const funcArray = [gameSelect, twoDModeSel, threeDModeSel, threeDSetting, threeDTourSetting, threeDGame, threeDTourGame];
 export const supportLangs = ['en', 'kr', 'jp'];
 // 함수 배열, 각각의 함수는 대응되는 페이지의 내용을 랜더링해줌
 
-import { ThreeDsettingApp } from '../pages/3d-setting.js';
-import { getGameApp } from '../pages/3d-game.js';
-import { clearGameApp } from '../pages/3d-game.js';
-import { languages } from '../language.js';
+import { ThreeDsettingApp } from './pages/3d-setting.js';
+import { getGameApp } from './pages/3d-game.js';
+import { clearGameApp } from './pages/3d-game.js';
+import { languages } from './language.js';
 
 let ignoreHashChange = false;
 // 해시 변경 시 이벤트 무시 여부를 관리하는 boolean 플래그.
@@ -25,7 +27,9 @@ const hashList = [
 	'2d-mode-select',
 	'3d-mode-select',
 	'3d-setting',
+	'3d-tour-setting',
 	'3d-game',
+	'3d-tour-game',
 ];
 
 export function renderPage(hash) {
@@ -44,7 +48,7 @@ export function renderPage(hash) {
 		clearGameApp();
 
 	const langSetting = document.getElementById("globe-icon");
-	if (idx < 4 && window.getComputedStyle(langSetting).display === "none")
+	if (idx < 5 && window.getComputedStyle(langSetting).display === "none")
 		langSetting.style.display = "block";
 
 	setTimeout(() => { ignoreHashChange =false; }, 50);

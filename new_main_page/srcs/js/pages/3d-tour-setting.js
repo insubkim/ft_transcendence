@@ -2,12 +2,11 @@ const appContainer = document.getElementById("app");
 import { App } from "../game/3D/3d-game-option-select.js";
 import { renderPage } from "../router.js";
 import { languages } from "../language.js";
-import { renameDuplicates } from "./3d-tour-setting.js";
 export let gameSettings = [];
 export let nicknames = [];
 export let ThreeDsettingApp = null;
 
-export function threeDSetting(currentLanguage) {
+export function threeDTourSetting(currentLanguage) {
 	appContainer.innerHTML = `
 	<div id="webgl-container"></div>
 	<div class="setting-container">
@@ -25,6 +24,8 @@ export function threeDSetting(currentLanguage) {
 		</form>
 		<input class="nickname" id="p1" type="text" placeholder="${languages[currentLanguage].player1Nick}">
 		<input class="nickname" id="p2" type="text" placeholder="${languages[currentLanguage].player2Nick}">
+		<input class="nickname" id="p3" type="text" placeholder="${languages[currentLanguage].player3Nick}">
+		<input class="nickname" id="p4" type="text" placeholder="${languages[currentLanguage].player4Nick}">
 		<button class="back-button" id="game-start">${languages[currentLanguage].threeDStart}</button>
 		<button class="back-button" id="3d-back-button">${languages[currentLanguage].goBack}</button>
 	</div>
@@ -51,19 +52,29 @@ export function threeDSetting(currentLanguage) {
 			gameSettings = [];  // 기존 게임 설정을 초기화
 			gameSettings.push(document.querySelector('input[name="color"]:checked'));
 			gameSettings.push(document.querySelector('input[name="speed"]:checked'));
+
 			let inputP1 = document.querySelector('#p1').value;
-			if (!inputP1)
-				inputP1 = "Player1"
 			let inputP2 = document.querySelector('#p2').value;
+			let inputP3 = document.querySelector('#p3').value;
+			let inputP4 = document.querySelector('#p4').value;
+
+			if (!inputP1)
+			inputP1 = "Player1"
 			if (!inputP2)
-				inputP2 = "Player2"
+			inputP2 = "Player2"
+			if (!inputP3)
+				inputP3 = "Player3"
+			if (!inputP4)
+				inputP4 = "Player4"
 
 			nicknames = [];
 			nicknames.push(inputP1);
 			nicknames.push(inputP2);
+			nicknames.push(inputP3);
+			nicknames.push(inputP4);
 			nicknames = renameDuplicates(nicknames);
 			console.log("LETSGOOO");
-			renderPage("3d-game");
+			renderPage("3d-tour-game");
 		})
 
 		backBtn.addEventListener('click', () => {
@@ -72,4 +83,18 @@ export function threeDSetting(currentLanguage) {
 			renderPage('3d-mode-select');
 		})
 	}
+}
+
+export function renameDuplicates(arr) {
+	const counts = {};
+	return arr.map(function(str) {
+		if (counts[str]) {
+			counts[str]++;
+			return str + counts[str];
+		}
+		else {
+			counts[str] = 1;
+			return str;
+		}
+	});
 }

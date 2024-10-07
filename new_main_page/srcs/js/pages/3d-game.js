@@ -15,13 +15,12 @@ export function threeDGame() {
 
 	if (pongGame) {
 		clearGameApp();
-		let newGame = new ThreeGame(gameSettings[0].value, gameSettings[1].value, nicknames[0], nicknames[1]);
+		let newGame = new ThreeGame(0, gameSettings[0].value, gameSettings[1].value, nicknames[0], nicknames[1]);
 		setGameApp(newGame);
 		console.log("GAMESTARTT");
 		gameApp.start();
 	}
 }
-
 
 export function setGameApp(app) {
 	gameApp = app;

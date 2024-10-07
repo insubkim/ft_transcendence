@@ -1,6 +1,6 @@
 const appContainer = document.getElementById("app");
 import { languages } from "../language.js";
-import { renderPage } from "../router/router.js";
+import { renderPage } from "../router.js";
 
 export function twoDModeSel(currentLanguage) {
 	appContainer.innerHTML = `

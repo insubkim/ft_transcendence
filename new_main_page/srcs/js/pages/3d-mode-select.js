@@ -1,6 +1,6 @@
 const appContainer = document.getElementById("app");
 import { languages } from "../language.js";
-import { renderPage } from "../router/router.js";
+import { renderPage } from "../router.js";
 
 export function threeDModeSel(currentLanguage) {
 	appContainer.innerHTML = `
@@ -18,5 +18,8 @@ export function threeDModeSel(currentLanguage) {
 	`
 	const oneVoneBtn = document.getElementById('three-1V1-btn');
 	if (oneVoneBtn)
-		oneVoneBtn.addEventListener('click', () => renderPage('3d-setting'))
+		oneVoneBtn.addEventListener('click', () => renderPage('3d-setting'));
+	const tournamentBtn = document.getElementById('three-tournament-btn');
+	if (tournamentBtn)
+		tournamentBtn.addEventListener('click', () => renderPage('3d-tour-setting'));
 }
