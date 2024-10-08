@@ -13,9 +13,6 @@ const funcArray = [gameSelect, twoDModeSel, threeDModeSel, threeDSetting, threeD
 export const supportLangs = ['en', 'kr', 'jp'];
 // 함수 배열, 각각의 함수는 대응되는 페이지의 내용을 랜더링해줌
 
-import { ThreeDsettingApp } from './pages/3d-setting.js';
-import { getGameApp } from './pages/3d-game.js';
-import { clearGameApp } from './pages/3d-game.js';
 import { languages } from './language.js';
 
 let ignoreHashChange = false;
@@ -43,10 +40,6 @@ export function renderPage(hash) {
 		hash = 'game-select';
 	window.location.hash = `#${currentLang}/` + hash;
 
-	let gameApp = getGameApp();
-	if (gameApp && hash !== '3d-game')
-		clearGameApp();
-
 	const langSetting = document.getElementById("globe-icon");
 	if (idx < 5 && window.getComputedStyle(langSetting).display === "none")
 		langSetting.style.display = "block";
@@ -66,12 +59,8 @@ function handleHashChange() {
 	const hash = window.location.hash.substring(1); // "#" 문자 지우기
 	let [lang, page] = hash.split('/'); // 언어설정, 현 페이지 주소 분리
 
-	let gameApp = getGameApp();
-	if (gameApp && page !== '3d-game')
-		clearGameApp();
-
 	const hashIdx = hashList.indexOf(page);
-	if (hashIdx === -1 || hashIdx > 3) // 유효한 hash주솟값인지 확인
+	if (hashIdx === -1 || hashIdx > 4) // 유효한 hash주솟값인지 확인
 		page = 'game-select';
 	renderPage(page);
 }

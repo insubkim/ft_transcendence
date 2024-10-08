@@ -14,25 +14,10 @@ export function threeDGame() {
 	const pongGame = document.getElementById('3dpong');
 
 	if (pongGame) {
-		clearGameApp();
-		let newGame = new ThreeGame(0, gameSettings[0].value, gameSettings[1].value, nicknames[0], nicknames[1]);
-		setGameApp(newGame);
+		if (gameApp)
+			gameApp.dispose();
+		gameApp = new ThreeGame(0, gameSettings[0].value, gameSettings[1].value, nicknames[0], nicknames[1]);
 		console.log("GAMESTARTT");
 		gameApp.start();
-	}
-}
-
-export function setGameApp(app) {
-	gameApp = app;
-}
-
-export function getGameApp() {
-	return gameApp;
-}
-
-export function clearGameApp() {
-	if (gameApp) {
-		gameApp.dispose();
-		gameApp = null;
 	}
 }

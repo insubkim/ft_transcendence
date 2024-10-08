@@ -1,7 +1,9 @@
 import * as THREE from '../3Dmodules/three.module.js';
 import { OrbitControls } from '../3Dmodules/OrbitControls.js';
 import { renderPage } from '../../router.js';
+import { threeDTourGame } from '../../pages/3d-tour-game.js';
 const appContainer = document.getElementById("app");
+export let winners = [];
 
 class GameRenderer {
 	constructor(divContainer) {
@@ -426,15 +428,16 @@ class ScoreBoard {
 		if (this._gameNum && this._gameNum < 3) {
 			returnBtn.textContent = 'Go to the next match';
 			returnBtn.addEventListener('click', () => {
-				this._onGameOverCallback();
+				winners.push(winner);
+				threeDTourGame();
 			});
 		}
 		else {
 			returnBtn.textContent = 'Return to the main page';
+			winners.push(winner);
 			returnBtn.addEventListener('click', () => renderPage('game-select'));
 		}
 		gameOverText.appendChild(returnBtn);
-
 
 		this._gameOverElement = gameOverText;
 		this._returnBtn = returnBtn;
@@ -454,7 +457,7 @@ export class ThreeGame {
 		window.onresize = this.resize.bind(this);
 		this.resize();
 
-		ScoreBoard.init();
+		ScoreBoard.init(gameNum);
 		ScoreBoard.update(this._controller.playerInfo);
 
 		this._animationId = null;
@@ -463,7 +466,6 @@ export class ThreeGame {
 
 		// 카메라 애니메이션 실행
 		this._startCameraAnimation();
-		this._onGameOverCallback = null;
 	}
 
 	_setupCameras() {
@@ -497,7 +499,6 @@ export class ThreeGame {
 	}
 
 	start(onGameOverCallback) {
-		this._onGameOverCallback = onGameOverCallback;
 		this._animationId = requestAnimationFrame(this._animate.bind(this));
 	}
 
@@ -508,10 +509,6 @@ export class ThreeGame {
 
 		if (!this._controller._isGameOver)
 			this._animationId = requestAnimationFrame(this._animate.bind(this));
-		else {
-			if (this._onGameOverCallback)
-				this._onGameOverCallback();
-		}
 	}
 
 	dispose() {
