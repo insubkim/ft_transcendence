@@ -390,6 +390,7 @@ class ScoreBoard {
 		document.body.appendChild(gameOverText);
 	}
 }
+
 class ThreeGame {
 	constructor(speed, color, p1Name, p2Name) {
 		this._divContainer = document.getElementById('webgl-container');
@@ -498,3 +499,5 @@ window.onload = function () {
 	const game = new ThreeGame(1, 0x8A2BE2, "Yusekim", "Inskim");
 	game.start();
 }
+
+export { ScoreBoard };
