@@ -5,7 +5,7 @@ import { gameSettings } from './3d-tour-setting.js';
 import { nicknames } from './3d-tour-setting.js';
 import { winners } from '../game/3D/3d-game-app.js';
 
-let gameApp = null;
+export let gameApp = null;
 let gameNum = 0;
 
 export function threeDTourGame() {

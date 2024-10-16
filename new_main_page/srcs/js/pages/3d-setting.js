@@ -6,8 +6,12 @@ import { renameDuplicates } from "./3d-tour-setting.js";
 export let gameSettings = [];
 export let nicknames = [];
 export let ThreeDsettingApp = null;
+import { gameApp } from "./3d-game.js";
 
 export function threeDSetting(currentLanguage) {
+	const is3Dpong = document.getElementById("3dpong");
+	if (is3Dpong)
+		gameApp.dispose();
 	appContainer.innerHTML = `
 	<div id="webgl-container"></div>
 	<div class="setting-container">
