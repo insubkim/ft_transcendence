@@ -5,7 +5,7 @@ import { gameSettings } from './3d-tour-setting.js';
 import { nicknames } from './3d-tour-setting.js';
 import { winners } from '../game/3D/3d-game-app.js';
 
-export let gameApp = null;
+let gameApp = null;
 let gameNum = 0;
 
 export function threeDTourGame() {
@@ -33,4 +33,9 @@ export function threeDTourGame() {
 		gameApp = new ThreeGame(gameNum, gameSettings[0].value, gameSettings[1].value, nicknames[playerIdx], nicknames[playerIdx + 1]);
 		gameApp.start();
 	}
+}
+
+export function gameClear() {
+	gameApp.dispose();
+	gameNum = 0;
 }

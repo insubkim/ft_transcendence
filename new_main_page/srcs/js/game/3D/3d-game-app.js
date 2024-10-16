@@ -507,7 +507,7 @@ export class ThreeGame {
 
 		this._renderer.render(this._scene.getScene(), this._camera1p, this._camera2p);
 
-		if (!this._controller._isGameOver)
+		if (this._renderer && !this._controller._isGameOver)
 			this._animationId = requestAnimationFrame(this._animate.bind(this));
 	}
 

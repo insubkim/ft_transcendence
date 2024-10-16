@@ -3,7 +3,7 @@ const langSetting = document.getElementById("globe-icon");
 import { ThreeGame } from '../game/3D/3d-game-app.js'
 import { gameSettings } from './3d-setting.js';
 import { nicknames } from './3d-setting.js';
-export let gameApp = null;
+let gameApp = null;
 
 export function threeDGame() {
 	appContainer.innerHTML = `
@@ -20,4 +20,9 @@ export function threeDGame() {
 		console.log("GAMESTARTT");
 		gameApp.start();
 	}
+}
+
+export function gameClear() {
+	gameApp.dispose();
+	gameNum = 0;
 }
