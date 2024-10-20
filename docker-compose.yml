@@ -1,20 +1,34 @@
-version: '3'
+version: "3.8"
 
 services:
-  user-service:
-    build: ./BE/user_service
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: ft_transcendence
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  web:
+    build: ./BE
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./BE:/app
+    working_dir: /app
     ports:
       - "8000:8000"
-    networks:
-      - backend-network
+    depends_on:
+      - db
 
-  game-service:
-    build: ./BE/game_service
+  frontend:
+    image: nginx:alpine
+    volumes:
+      - ./FE:/usr/share/nginx/html
     ports:
-      - "8001:8001"
-    networks:
-      - backend-network
+      - "5500:80"
 
-networks:
-  backend-network:
-    driver: bridge
+volumes:
+  pg_data:
