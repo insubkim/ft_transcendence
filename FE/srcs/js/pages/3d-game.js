@@ -24,5 +24,4 @@ export function threeDGame() {
 
 export function gameClear() {
 	gameApp.dispose();
-	gameNum = 0;
 }

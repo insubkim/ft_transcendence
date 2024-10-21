@@ -93,16 +93,61 @@ export function threeDTourSetting(currentLanguage) {
 	}
 }
 
-export function renameDuplicates(arr) {
-	const counts = {};
-	return arr.map(function(str) {
-		if (counts[str]) {
-			counts[str]++;
-			return str + counts[str];
+function truncateStrings(arr) {
+	for (let i = 0; i < arr.length; i++) {
+		if (arr[i].length > 8) {
+			arr[i] = arr[i].slice(0, 8);
 		}
-		else {
-			counts[str] = 1;
+	}
+}
+
+
+export function renameDuplicates(arr) {
+	const counts = {}; // Keeps track of counts used for each base name
+	const usedNames = new Set(); // Keeps track of all names used
+	
+	console.log("here");
+	truncateStrings(arr);
+	return arr.map(function(str) {
+		// Extract base name and count from the string
+		const { baseName, count } = getBaseName(str);
+
+		// Initialize counts for base name if not already done
+		if (!counts[baseName]) {
+			counts[baseName] = new Set();
+		}
+
+		// If the name hasn't been used yet, add it directly
+		if (!usedNames.has(str)) {
+			usedNames.add(str);
+			if (count !== null) {
+				counts[baseName].add(count);
+			}
 			return str;
+		} else {
+			// Generate a new name with an appropriate count
+			let newCount = 1;
+			while (
+				counts[baseName].has(newCount) ||
+				usedNames.has(`${baseName}(${newCount})`)
+			) {
+				newCount++;
+			}
+			counts[baseName].add(newCount);
+			const newName = `${baseName}(${newCount})`;
+			usedNames.add(newName);
+			return newName;
 		}
 	});
+}
+
+// Helper function to extract base name and count
+function getBaseName(str) {
+	const match = str.match(/^(.*?)(?:\((\d+)\))?$/);
+	if (match) {
+		const baseName = match[1];
+		const count = match[2] ? parseInt(match[2], 10) : null;
+		return { baseName, count };
+	}
+	return { baseName: str, count: null };
 }
