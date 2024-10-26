@@ -8,8 +8,9 @@ import { threeDSetting } from './pages/3d-setting.js';
 import { threeDTourSetting } from './pages/3d-tour-setting.js';
 import { threeDGame } from './pages/3d-game.js'
 import { threeDTourGame } from './pages/3d-tour-game.js';
+import { checkTourResults } from './pages/check-results.js';
 
-const funcArray = [gameSelect, twoDModeSel, threeDModeSel, threeDSetting, threeDTourSetting, threeDGame, threeDTourGame];
+const funcArray = [gameSelect, twoDModeSel, threeDModeSel, threeDSetting, threeDTourSetting, checkTourResults, threeDGame, threeDTourGame];
 export const supportLangs = ['en', 'kr', 'jp'];
 // 함수 배열, 각각의 함수는 대응되는 페이지의 내용을 랜더링해줌
 
@@ -25,6 +26,7 @@ const hashList = [
 	'3d-mode-select',
 	'3d-setting',
 	'3d-tour-setting',
+	'check-results',
 	'3d-game',
 	'3d-tour-game',
 ];

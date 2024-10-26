@@ -2,6 +2,7 @@ import * as THREE from '../3Dmodules/three.module.js';
 import { OrbitControls } from '../3Dmodules/OrbitControls.js';
 import { renderPage } from '../../router.js';
 import { threeDTourGame } from '../../pages/3d-tour-game.js';
+import { tourNicknames } from '../../pages/3d-tour-setting.js';
 const appContainer = document.getElementById("app");
 export let winners = [];
 
@@ -215,7 +216,7 @@ class GameController {
 		this._keyState = {};
 		this._isGameOver = false;
 		this.playerInfo = { player1Name: p1Name, player2Name: p2Name, player1Score: 0, player2Score: 0 };
-		this._maxScore = 5;
+		this._maxScore = 5; // 점수
 
 		// 컨트롤 활성화 여부 플래그
 		this._controlsEnabled = false;
@@ -432,10 +433,17 @@ class ScoreBoard {
 				threeDTourGame();
 			});
 		}
-		else {
-			returnBtn.textContent = 'Return to the main page';
-			winners.push(winner);
+		else if (this._gameNum === 0) {
+			returnBtn.textContent = 'Back to the main page';
 			returnBtn.addEventListener('click', () => renderPage('game-select'));
+			console.log('HERE');
+			//code for 1v1 result
+		}
+		else {
+			winners.push(winner);
+			tourNicknames.push(winner);
+			returnBtn.textContent = 'Check results';
+			returnBtn.addEventListener('click', () => renderPage('check-results'));
 		}
 		gameOverText.appendChild(returnBtn);
 

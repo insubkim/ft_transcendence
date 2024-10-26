@@ -19,6 +19,10 @@ export const languages = {
 		player2Nick: "Enter nickname for P2",
 		player3Nick: "Enter nickname for P3",
 		player4Nick: "Enter nickname for P4",
+		players: "Players",
+		final: "Final",
+		winner: "Winner",
+		goMain: "back to the main page",
 	},
 	ko: {
 		welcome: "PONG에 오신 것을 환영합니다!",
@@ -37,6 +41,10 @@ export const languages = {
 		player2Nick: "선수2의 이름을 입력",
 		player3Nick: "선수3의 이름을 입력",
 		player4Nick: "선수4의 이름을 입력",
+		players: "선수명",
+		final: "결승전",
+		winner: "승자",
+		goMain: "메인 페이지로",
 	},
 	ja: {
 		welcome: "PONGへようこそ!",
@@ -55,6 +63,10 @@ export const languages = {
 		player2Nick: "2番の選手名入力",
 		player3Nick: "3番の選手名入力",
 		player4Nick: "4番の選手名入力",
+		players: "選手名",
+		final: "決勝戦",
+		winner: "勝者",
+		goMain: "メインページに戻ります",
 	}
 };
 

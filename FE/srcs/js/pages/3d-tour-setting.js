@@ -3,7 +3,7 @@ import { App } from "../game/3D/3d-game-option-select.js";
 import { renderPage } from "../router.js";
 import { languages } from "../language.js";
 export let gameSettings = [];
-export let nicknames = [];
+export let tourNicknames = [];
 export let ThreeDsettingApp = null;
 import { gameClear } from "./3d-tour-game.js";
 
@@ -13,7 +13,7 @@ export function threeDTourSetting(currentLanguage) {
 	{
 		gameClear();
 		gameSettings = [];
-		nicknames = [];
+		tourNicknames = [];
 	}
 	appContainer.innerHTML = `
 	<div id="webgl-container"></div>
@@ -75,12 +75,12 @@ export function threeDTourSetting(currentLanguage) {
 			if (!inputP4)
 				inputP4 = "Player4"
 
-			nicknames = [];
-			nicknames.push(inputP1);
-			nicknames.push(inputP2);
-			nicknames.push(inputP3);
-			nicknames.push(inputP4);
-			nicknames = renameDuplicates(nicknames);
+			tourNicknames = [];
+			tourNicknames.push(inputP1);
+			tourNicknames.push(inputP2);
+			tourNicknames.push(inputP3);
+			tourNicknames.push(inputP4);
+			tourNicknames = renameDuplicates(tourNicknames);
 			console.log("LETSGOOO");
 			renderPage("3d-tour-game");
 		})
@@ -105,7 +105,7 @@ function truncateStrings(arr) {
 export function renameDuplicates(arr) {
 	const counts = {}; // Keeps track of counts used for each base name
 	const usedNames = new Set(); // Keeps track of all names used
-	
+
 	console.log("here");
 	truncateStrings(arr);
 	return arr.map(function(str) {
