@@ -1,11 +1,11 @@
 const appContainer = document.getElementById("app");
-import { tourNicknames } from "./3d-tour-setting.js";
+import { tourNicknames } from "./2d-tour-setting.js";
 import { renderPage } from "../router.js";
-import { gameClear } from "./3d-tour-game.js";
+import { gameClear } from "./2d-tour-game.js";
 import { languages } from "../language.js";
 
-export function checkTourResults(currentLanguage) {
-	const is3Dpong = document.getElementById("3dpong");
+export function twoCheckTourResults(currentLanguage) {
+	const is3Dpong = document.getElementById("2dpong");
 	if (is3Dpong)
 		gameClear();
 	appContainer.innerHTML = `

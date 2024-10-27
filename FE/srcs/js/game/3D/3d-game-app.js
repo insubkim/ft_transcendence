@@ -443,7 +443,7 @@ class ScoreBoard {
 			winners.push(winner);
 			tourNicknames.push(winner);
 			returnBtn.textContent = 'Check results';
-			returnBtn.addEventListener('click', () => renderPage('check-results'));
+			returnBtn.addEventListener('click', () => renderPage('3d-check-results'));
 		}
 		gameOverText.appendChild(returnBtn);
 

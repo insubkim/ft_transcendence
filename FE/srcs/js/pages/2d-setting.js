@@ -2,7 +2,7 @@ const appContainer = document.getElementById("app");
 import { App } from "../game/2D/2d-game-option-select.js";
 import { renderPage } from "../router.js";
 import { languages } from "../language.js";
-import { renameDuplicates } from "./3d-tour-setting.js";
+import { renameDuplicates } from "./2d-tour-setting.js";
 export let gameSettings = [];
 export let nicknames = [];
 export let TwoDsettingApp = null;

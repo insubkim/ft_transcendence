@@ -180,16 +180,16 @@ class GameController {
 
 		// 1P 패들 이동
 		const p1Paddle = this._objects.p1Paddle;
-		if (this._keyState['KeyA'])
+		if (this._keyState['ArrowLeft'])
 			p1Paddle.position.z += moveSpd;
-		if (this._keyState['KeyD'])
+		if (this._keyState['ArrowRight'])
 			p1Paddle.position.z -= moveSpd;
 
 		// 2P 패들 이동
 		const p2Paddle = this._objects.p2Paddle;
-		if (this._keyState['ArrowLeft'])
+		if (this._keyState['KeyA'])
 			p2Paddle.position.z -= moveSpd;
-		if (this._keyState['ArrowRight'])
+		if (this._keyState['KeyD'])
 			p2Paddle.position.z += moveSpd;
 	}
 
@@ -328,7 +328,7 @@ class ScoreBoard {
 			winners.push(winner);
 			tourNicknames.push(winner);
 			returnBtn.textContent = 'Check results';
-			returnBtn.addEventListener('click', () => renderPage('check-results'));
+			returnBtn.addEventListener('click', () => renderPage('2d-check-results')); 
 		}
 		gameOverText.appendChild(returnBtn);
 
