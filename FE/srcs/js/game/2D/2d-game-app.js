@@ -2,7 +2,8 @@ import * as THREE from '../3Dmodules/three.module.js';
 import { OrbitControls } from '../3Dmodules/OrbitControls.js';
 import { GLTFLoader } from '../3Dmodules/GLTFLoader.js';
 import { renderPage } from '../../router.js';
-// import { threeDTourGame } from '../../pages/3d-tour-game.js';
+import { twoDTourGame } from '../../pages/2d-tour-game.js';
+import { tourNicknames } from '../../pages/2d-tour-setting.js';
 const appContainer = document.getElementById("app");
 export let winners = [];
 
@@ -77,7 +78,7 @@ class GameScene {
 	}
 
 	_createBall() {
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const material = new THREE.MeshBasicMaterial({ color: this._ballColor });
     const sphere_geometry = new THREE.SphereGeometry(0.03, 32, 32); // radius, width segments, height segments
     const sphere = new THREE.Mesh(sphere_geometry, material);
     sphere.position.x += -0.05;
@@ -89,15 +90,15 @@ class GameScene {
 
 	_createPaddles() {
     const box_geometry = new THREE.BoxGeometry(0.1, 0.5, 0.5);
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const cube1 = new THREE.Mesh(box_geometry, material);
-    const cube2 = new THREE.Mesh(box_geometry, material);
+    const orange_color = new THREE.MeshBasicMaterial({ color: 0XFFB347 });
+    const sky_color = new THREE.MeshBasicMaterial({ color: 0XC0E8F8 });
+    const cube1 = new THREE.Mesh(box_geometry, orange_color);
+    const cube2 = new THREE.Mesh(box_geometry, sky_color);
     cube1.position.x += 1.4;
     cube1.position.y += 0.8;
-    cube1.position.z += 0.1;
+    cube1.position.z += 0.4;
     cube2.position.x -= 1.5;
     cube2.position.y += 0.8;
-    cube1.position.z += -0.5;
     this._scene.add(cube1);
     this._scene.add(cube2);
 
@@ -140,7 +141,7 @@ class GameController {
 		this._maxScore = 5;
 
 		// 컨트롤 활성화 여부 플래그
-		this._controlsEnabled = false;
+		this._controlsEnabled = true;
 
 		this._detectKeyPress();
 	}
@@ -179,10 +180,6 @@ class GameController {
 
 		// 1P 패들 이동
 		const p1Paddle = this._objects.p1Paddle;
-		if (this._keyState['KeyW'])
-			p1Paddle.position.y += moveSpd;
-		if (this._keyState['KeyS'])
-			p1Paddle.position.y -= moveSpd;
 		if (this._keyState['KeyA'])
 			p1Paddle.position.z += moveSpd;
 		if (this._keyState['KeyD'])
@@ -190,10 +187,6 @@ class GameController {
 
 		// 2P 패들 이동
 		const p2Paddle = this._objects.p2Paddle;
-		if (this._keyState['ArrowUp'])
-			p2Paddle.position.y += moveSpd;
-		if (this._keyState['ArrowDown'])
-			p2Paddle.position.y -= moveSpd;
 		if (this._keyState['ArrowLeft'])
 			p2Paddle.position.z -= moveSpd;
 		if (this._keyState['ArrowRight'])
@@ -212,12 +205,18 @@ class GameController {
       right : 1.3
     }
 
-    if (sphere.position.z < board_coord.top) { // 위
+    if (sphere.position.z < board_coord.top &&
+			sphere.position.x > board_coord.left &&
+			sphere.position.x < board_coord.right
+		) { // 위
       console.log('hit board top!');
       this._ball_dyd = 1;
     }
 
-    if (sphere.position.z > board_coord.bottom) { // 아래
+    if (sphere.position.z > board_coord.bottom &&
+			sphere.position.x > board_coord.left &&
+			sphere.position.x < board_coord.right
+		) { // 아래
       console.log('hit board bottom!');
       this._ball_dyd = 0;
     } 
@@ -256,9 +255,9 @@ class GameController {
       sphere.position.z = 0;
       return;
     }
-
-    sphere.position.z += this._ball_dyd == 0 ? -0.01 : 0.01;
-    sphere.position.x += this._ball_dxd == 0 ? -0.01 : 0.01;
+		
+		sphere.position.z += this._ball_dyd == 0 ? -1 * this._speed : 1 * this._speed;
+    sphere.position.x += this._ball_dxd == 0 ? -1 * this._speed : 1 * this._speed;
 	}
 
 	_resetGameObjects() {
@@ -316,13 +315,20 @@ class ScoreBoard {
 			returnBtn.textContent = 'Go to the next match';
 			returnBtn.addEventListener('click', () => {
 				winners.push(winner);
-				// threeDTourGame();
+				twoDTourGame();
 			});
 		}
-		else {
-			returnBtn.textContent = 'Return to the main page';
-			winners.push(winner);
+		else if (this._gameNum === 0) {
+			returnBtn.textContent = 'Back to the main page';
 			returnBtn.addEventListener('click', () => renderPage('game-select'));
+			console.log('HERE');
+			//code for 1v1 result
+		}
+		else {
+			winners.push(winner);
+			tourNicknames.push(winner);
+			returnBtn.textContent = 'Check results';
+			returnBtn.addEventListener('click', () => renderPage('check-results'));
 		}
 		gameOverText.appendChild(returnBtn);
 
@@ -347,21 +353,9 @@ export class TwoGame {
 
 		this._animationId = null;
 		// 컨트롤 비활성화
-		this._controller._controlsEnabled = false;
+		// this._controller._controlsEnabled = false;
 	}
 
-	// _setupCameras() {
-	// 	const width = this._divContainer.clientWidth;
-	// 	const height = this._divContainer.clientHeight;
-
-  //   this._camera = new THREE.PerspectiveCamera(
-  //     45,
-  //     window.innerWidth / window.innerHeight,
-  //     0.1,
-  //     1000
-  //   );
-  //   this._camera.position.set(0, 5, 5);
-	// }
 _setupCameras() {
     const width = this._divContainer.clientWidth;
     const height = this._divContainer.clientHeight;
@@ -381,10 +375,6 @@ _setupCameras() {
 
 	async _animate() {
 		await this._controller.update();
-
-		// console.log(this._renderer);
-		// console.log(this._scene);
-		// console.log(this._camera);
 
 		this._renderer.render(this._scene.getScene(), this._camera);
 

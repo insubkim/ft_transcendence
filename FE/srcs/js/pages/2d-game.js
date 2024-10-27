@@ -7,8 +7,7 @@ let gameApp = null;
 
 export function twoDGame() {
 	appContainer.innerHTML = `
-  <canvas id="2dpong"></canvas>
-
+  <div id="2dpong"></div>
 	`
 
 	langSetting.style.display = "none";
@@ -25,5 +24,4 @@ export function twoDGame() {
 
 export function gameClear() {
 	gameApp.dispose();
-	gameNum = 0;
 }

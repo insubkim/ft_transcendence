@@ -17,8 +17,11 @@ export function twoDModeSel(currentLanguage) {
 		</button>
 	</div>
 	`
-	const twoDBackBtn = document.getElementById('2d-back-button');
-	if (twoDBackBtn)
-		twoDBackBtn.addEventListener('click', () => renderPage('game-select'));
+	const oneVoneBtn = document.getElementById('two-1V1-btn');
+	if (oneVoneBtn)
+		oneVoneBtn.addEventListener('click', () => renderPage('2d-setting'));
+	const tournamentBtn = document.getElementById('two-tournament-btn');
+	if (tournamentBtn)
+		tournamentBtn.addEventListener('click', () => renderPage('2d-tour-setting'));
 }
 

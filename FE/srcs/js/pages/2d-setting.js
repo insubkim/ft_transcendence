@@ -17,12 +17,12 @@ export function twoDSetting(currentLanguage) {
 		nicknames = [];
 	}
 	appContainer.innerHTML = `
-	<canvas id="webgl-container"></canvas>
+	<div id="webgl-container"></div>
 	<div class="setting-container">
 		<form class="selection" id="ball-speed">
 			<div>${languages[currentLanguage].threeDBallSpd}:</div>
-			<label><input type="radio" name="speed" value="1" required checked> ${languages[currentLanguage].threeDEasy}</label><br>
-			<label><input type="radio" name="speed" value="1.5"> ${languages[currentLanguage].threeDHard}</label><br>
+			<label><input type="radio" name="speed" value="0.02" required checked> ${languages[currentLanguage].threeDEasy}</label><br>
+			<label><input type="radio" name="speed" value="0.03"> ${languages[currentLanguage].threeDHard}</label><br>
 		</form>
 
 		<form class="selection" id="ball-color">

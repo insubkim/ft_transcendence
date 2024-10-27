@@ -6,18 +6,16 @@ export class App {
 		const divContainer = document.querySelector("#webgl-container");
 		this._divContainer = divContainer;
 
-		// const renderer = new THREE.WebGLRenderer({ antialias: true });
-		// renderer.setPixelRatio(window.devicePixelRatio);
-		const renderer = new THREE.WebGLRenderer({
-      canvas: document.querySelector("#webgl-container"),
-      antialias: true,
-    });
-		// divContainer.appendChild(renderer.domElement);
+		const renderer = new THREE.WebGLRenderer({ antialias: true });
+		renderer.setPixelRatio(window.devicePixelRatio);
+		divContainer.appendChild(renderer.domElement);
 		this._renderer = renderer;
 
 		const scene = new THREE.Scene();
     scene.background = new THREE.Color("black");
 		this._scene = scene;
+
+		let ballSpeed = this._getSpeed();
 
 		this._setupCamera();
 		this._setupLight();
