@@ -14,12 +14,12 @@ services:
 
   web:
     build: ./BE
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:443
     volumes:
       - ./BE:/app
     working_dir: /app
     ports:
-      - "8000:8000"
+      - "443:443"
     depends_on:
       - db
 
