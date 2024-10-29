@@ -454,7 +454,11 @@ class ScoreBoard {
 
 export class ThreeGame {
 	constructor(gameNum, color, speed, p1Name, p2Name) {
-		this._divContainer = document.getElementById('3dpongTour');
+		this._divContainer = null;
+		if (gameNum)
+			this._divContainer = document.getElementById('3dpongTour');
+		else
+			this._divContainer = document.getElementById('3dpong');
 		this._renderer = new GameRenderer(this._divContainer);
 		this._scene = new GameScene(Number(color), Number(color) === 0xC0C0C0 ? 0x000000 : 0xFFFFFF);
 		this._objects = this._scene.getObjects();
