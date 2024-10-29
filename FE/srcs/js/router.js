@@ -15,9 +15,9 @@ import { threeDGame } from './pages/3d-game.js'
 import { threeDTourGame } from './pages/3d-tour-game.js';
 import { threeCheckTourResults } from './pages/3d-check-results.js';
 
-const funcArray = [gameSelect, 
-									twoDModeSel, twoDSetting, twoDTourSetting, twoDGame,twoDTourGame,twoCheckTourResults,
-									threeDModeSel, threeDSetting, threeDTourSetting, threeDGame, threeDTourGame, threeCheckTourResults];
+const funcArray = [gameSelect,
+									twoDModeSel, twoDSetting, twoDTourSetting,threeDModeSel, threeDSetting, twoDGame, twoDTourGame,
+									threeDTourSetting, threeDGame, threeDTourGame, twoCheckTourResults, threeCheckTourResults];
 
 export const supportLangs = ['en', 'kr', 'jp'];
 // 함수 배열, 각각의 함수는 대응되는 페이지의 내용을 랜더링해줌
@@ -33,14 +33,14 @@ const hashList = [
 	'2d-mode-select',
 	'2d-setting',
 	'2d-tour-setting',
-	'2d-game',
-	'2d-tour-game',
-	'2d-check-results',
 	'3d-mode-select',
 	'3d-setting',
+	'2d-game',
+	'2d-tour-game',
 	'3d-tour-setting',
 	'3d-game',
 	'3d-tour-game',
+	'2d-check-results',
 	'3d-check-results',
 ];
 

@@ -1,8 +1,8 @@
 const appContainer = document.getElementById("app");
 const langSetting = document.getElementById("globe-icon");
 import { ThreeGame } from '../game/3D/3d-game-app.js'
-import { gameSettings } from './3d-tour-setting.js';
-import { tourNicknames } from './3d-tour-setting.js';
+import { threeGameSettings } from './3d-tour-setting.js';
+import { threeTourNicknames } from './3d-tour-setting.js';
 import { winners } from '../game/3D/3d-game-app.js';
 
 let gameApp = null;
@@ -10,12 +10,12 @@ let gameNum = 0;
 
 export function threeDTourGame() {
 	appContainer.innerHTML = `
-	<div id="3dpong"></div>
+	<div id="3dpongTour"></div>
 	`
 
 	gameNum += 1;
 	langSetting.style.display = "none";
-	const pongGame = document.getElementById('3dpong');
+	const pongGame = document.getElementById('3dpongTour');
 
 	if (pongGame) {
 		if (gameApp)
@@ -25,12 +25,12 @@ export function threeDTourGame() {
 			gameNum = 1;
 		}
 		if (winners[0]) {
-			tourNicknames.push(winners[0]);
+			threeTourNicknames.push(winners[0]);
 			winners.pop();
 		}
 		let playerIdx = gameNum * 2 - 2;
 		console.log("Game " + gameNum + " start!");
-		gameApp = new ThreeGame(gameNum, gameSettings[0].value, gameSettings[1].value, tourNicknames[playerIdx], tourNicknames[playerIdx + 1]);
+		gameApp = new ThreeGame(gameNum, threeGameSettings[0].value, threeGameSettings[1].value, threeTourNicknames[playerIdx], threeTourNicknames[playerIdx + 1]);
 		gameApp.start();
 	}
 }

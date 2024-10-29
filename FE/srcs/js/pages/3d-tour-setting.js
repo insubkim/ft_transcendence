@@ -2,19 +2,19 @@ const appContainer = document.getElementById("app");
 import { App } from "../game/3D/3d-game-option-select.js";
 import { renderPage } from "../router.js";
 import { languages } from "../language.js";
-export let gameSettings = [];
-export let tourNicknames = [];
-export let ThreeDsettingApp = null;
+export let threeGameSettings = [];
+export let threeTourNicknames = [];
+export let threeDsettingApp = null;
 import { gameClear } from "./3d-tour-game.js";
 
+export function clearThreeTourSetting() {
+	gameClear();
+	threeTourNicknames = [];
+	threeGameSettings = []
+}
+
 export function threeDTourSetting(currentLanguage) {
-	const is3Dpong = document.getElementById("3dpong");
-	if (is3Dpong)
-	{
-		gameClear();
-		gameSettings = [];
-		tourNicknames = [];
-	}
+
 	appContainer.innerHTML = `
 	<div id="webgl-container"></div>
 	<div class="setting-container">
@@ -44,22 +44,22 @@ export function threeDTourSetting(currentLanguage) {
 
 	if (startBtn && backBtn) {
 		// 기존 App 인스턴스가 있다면 해제
-		if (ThreeDsettingApp) {
-			ThreeDsettingApp.dispose();
-			ThreeDsettingApp = null;
+		if (threeDsettingApp) {
+			threeDsettingApp.dispose();
+			threeDsettingApp = null;
 		}
 
 		// 새로운 App 인스턴스 생성
-		ThreeDsettingApp = new App();
-		ThreeDsettingApp.startAnimation(); // 애니메이션 시작 (만약 startAnimation 메서드를 분리했다면)
+		threeDsettingApp = new App();
+		threeDsettingApp.startAnimation(); // 애니메이션 시작 (만약 startAnimation 메서드를 분리했다면)
 
 		startBtn.addEventListener('click', () => {
-			ThreeDsettingApp.dispose();
-			ThreeDsettingApp = null;
+			threeDsettingApp.dispose();
+			threeDsettingApp = null;
 
-			gameSettings = [];  // 기존 게임 설정을 초기화
-			gameSettings.push(document.querySelector('input[name="color"]:checked'));
-			gameSettings.push(document.querySelector('input[name="speed"]:checked'));
+			threeGameSettings = [];  // 기존 게임 설정을 초기화
+			threeGameSettings.push(document.querySelector('input[name="color"]:checked'));
+			threeGameSettings.push(document.querySelector('input[name="speed"]:checked'));
 
 			let inputP1 = document.querySelector('#p1').value;
 			let inputP2 = document.querySelector('#p2').value;
@@ -75,19 +75,19 @@ export function threeDTourSetting(currentLanguage) {
 			if (!inputP4)
 				inputP4 = "Player4"
 
-			tourNicknames = [];
-			tourNicknames.push(inputP1);
-			tourNicknames.push(inputP2);
-			tourNicknames.push(inputP3);
-			tourNicknames.push(inputP4);
-			tourNicknames = renameDuplicates(tourNicknames);
+			threeTourNicknames = [];
+			threeTourNicknames.push(inputP1);
+			threeTourNicknames.push(inputP2);
+			threeTourNicknames.push(inputP3);
+			threeTourNicknames.push(inputP4);
+			threeTourNicknames = renameDuplicates(threeTourNicknames);
 			console.log("LETSGOOO");
 			renderPage("3d-tour-game");
 		})
 
 		backBtn.addEventListener('click', () => {
-			ThreeDsettingApp.dispose();
-			ThreeDsettingApp = null;
+			threeDsettingApp.dispose();
+			threeDsettingApp = null;
 			renderPage('3d-mode-select');
 		})
 	}

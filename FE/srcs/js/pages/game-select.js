@@ -1,8 +1,17 @@
 const appContainer = document.getElementById("app");
 import { languages } from "../language.js";
 import { renderPage } from "../router.js";
+import { gameClear } from "./3d-game.js";
+import { clearThreeTourSetting } from "./3d-tour-setting.js";
+
 
 export function gameSelect(currentLanguage) {
+	const is3DpongTour = document.getElementById("3dpongTour");
+	const is3Dpong = document.getElementById("3dpong");
+	if (is3DpongTour)
+		clearThreeTourSetting();
+	if (is3Dpong)
+		gameClear();
 	appContainer.innerHTML = `
 	<h1 id="welcome-title" class="title-text">${languages[currentLanguage].welcome}</h1>
 	<div class="button-container" style="margin-bottom: 2vw;">

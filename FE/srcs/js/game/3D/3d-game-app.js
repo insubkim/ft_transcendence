@@ -2,7 +2,7 @@ import * as THREE from '../3Dmodules/three.module.js';
 import { OrbitControls } from '../3Dmodules/OrbitControls.js';
 import { renderPage } from '../../router.js';
 import { threeDTourGame } from '../../pages/3d-tour-game.js';
-import { tourNicknames } from '../../pages/3d-tour-setting.js';
+import { threeTourNicknames } from '../../pages/3d-tour-setting.js';
 const appContainer = document.getElementById("app");
 export let winners = [];
 
@@ -441,7 +441,7 @@ class ScoreBoard {
 		}
 		else {
 			winners.push(winner);
-			tourNicknames.push(winner);
+			threeTourNicknames.push(winner);
 			returnBtn.textContent = 'Check results';
 			returnBtn.addEventListener('click', () => renderPage('3d-check-results'));
 		}
@@ -454,7 +454,7 @@ class ScoreBoard {
 
 export class ThreeGame {
 	constructor(gameNum, color, speed, p1Name, p2Name) {
-		this._divContainer = document.getElementById('3dpong');
+		this._divContainer = document.getElementById('3dpongTour');
 		this._renderer = new GameRenderer(this._divContainer);
 		this._scene = new GameScene(Number(color), Number(color) === 0xC0C0C0 ? 0x000000 : 0xFFFFFF);
 		this._objects = this._scene.getObjects();

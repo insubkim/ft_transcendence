@@ -1,5 +1,5 @@
 const appContainer = document.getElementById("app");
-import { tourNicknames } from "./3d-tour-setting.js";
+import { threeTourNicknames } from "./3d-tour-setting.js";
 import { renderPage } from "../router.js";
 import { gameClear } from "./3d-tour-game.js";
 import { languages } from "../language.js";
@@ -18,17 +18,17 @@ export function threeCheckTourResults(currentLanguage) {
 
 		<div class="tournament-brackets">
 		<ul class="bracket bracket">
-			<li class="team-item">${tourNicknames[0]}</li>
-			<li class="team-item">${tourNicknames[1]}</li>
-			<li class="team-item">${tourNicknames[2]}</li>
-			<li class="team-item">${tourNicknames[3]}</li>
+			<li class="team-item">${threeTourNicknames[0]}</li>
+			<li class="team-item">${threeTourNicknames[1]}</li>
+			<li class="team-item">${threeTourNicknames[2]}</li>
+			<li class="team-item">${threeTourNicknames[3]}</li>
 		</ul>
 		<ul class="bracket bracket-2">
-			<li class="team-item">${tourNicknames[4]}</li>
-			<li class="team-item">${tourNicknames[5]}</li>
+			<li class="team-item">${threeTourNicknames[4]}</li>
+			<li class="team-item">${threeTourNicknames[5]}</li>
 		</ul>
 			<ul class="bracket bracket">
-			<li class="team-item">${tourNicknames[6]}</li>
+			<li class="team-item">${threeTourNicknames[6]}</li>
 		</ul>
 		</div>
 		<button class="back-button" id="back-btn">${languages[currentLanguage].goMain}</button>
