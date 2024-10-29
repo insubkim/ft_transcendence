@@ -302,6 +302,27 @@ class ScoreBoard {
 		this._scoreBoard.innerHTML = gameNumTxt + `${playerInfo.player1Name}: ${playerInfo.player1Score} - ${playerInfo.player2Name}: ${playerInfo.player2Score}`;
 	}
 
+	updateWinner(){
+		fetch('http://127.0.0.1:8000/save-game-result', {
+			method: 'POST', // HTTP 메서드 설정
+			headers: {
+					'Content-Type': 'application/json' // 전송할 데이터의 형식 지정
+			},
+			body: JSON.stringify({ // 전송할 데이터
+					'game-mode': '2d-1vs1',
+					'players': ['insub', 'qwer'],
+					'winner-name': 'insub'
+			})
+		})
+		.then(response => response.json()) // 응답을 JSON으로 파싱
+		.then(data => {
+				console.log('Success:', data);
+		})
+		.catch((error) => {
+				console.error('Error:', error);
+		});	
+	}
+
 	static showGameOver(playerInfo) {
 		const gameOverText = document.createElement('div');
 		gameOverText.classList.add('game-over');
@@ -323,6 +344,27 @@ class ScoreBoard {
 			returnBtn.addEventListener('click', () => renderPage('game-select'));
 			console.log('HERE');
 			//code for 1v1 result
+			
+// { //TEST
+// 	fetch('http://127.0.0.1:8000/api/save-game-result', {
+// 		method: 'POST', // HTTP 메서드 설정
+// 		headers: {
+// 				'Content-Type': 'application/json' // 전송할 데이터의 형식 지정
+// 		},
+// 		body: JSON.stringify({ // 전송할 데이터
+// 				'game-mode': '2d-1vs1',
+// 				'players': ['insub', 'qwer'],
+// 				'winner-name': 'insub'
+// 		})
+// 	})
+// 	.then(response => response.json()) // 응답을 JSON으로 파싱
+// 	.then(data => {
+// 			console.log('Success:', data);
+// 	})
+// 	.catch((error) => {
+// 			console.error('Error:', error);
+// 	});	
+// }
 		}
 		else {
 			winners.push(winner);

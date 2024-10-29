@@ -140,7 +140,7 @@ export class App {
 
 	_setupModel() {
     let loader = new GLTFLoader();
-    loader.load("./../../../../../FE/img/2d_game_pong_table/scene.gltf", (gltf) => {
+    loader.load("./../../../../../img/2d_game_pong_table/scene.gltf", (gltf) => {
       this._scene.add(gltf.scene);
       this._renderer.render(this._scene, this._camera);
     },

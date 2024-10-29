@@ -7,12 +7,12 @@ export function threeDModeSel(currentLanguage) {
 	<h1 id="3d-mode-select-title" class="title-text">${languages[currentLanguage].gameModeSel}</h1>
 	<div class="button-container">
 	<button id="three-1V1-btn" class="button">
-	<img src="./FE/img/mode_select/3D-fist.png">
+	<img src="./img/mode_select/3D-fist.png">
 	<span id="3D-1V1" class="text">${languages[currentLanguage].oneVone}</span>
 	</button>
 
 	<button id="three-tournament-btn" class="button2">
-	<img src="./FE/img/mode_select/3D-trophy.png">
+	<img src="./img/mode_select/3D-trophy.png">
 	<span id="3D-tournament" class="text">${languages[currentLanguage].tournament}</span>
 	</div>
 	`
