@@ -19,16 +19,18 @@ services:
       - ./BE:/app
     working_dir: /app
     ports:
-      - "443:443"
+      - "8000:443"
     depends_on:
       - db
 
   frontend:
-    image: nginx:alpine
+    build: ./FE/.
+    image: nginx:1.0
+    container_name: frontend
     volumes:
       - ./FE:/usr/share/nginx/html
     ports:
-      - "5500:80"
+      - "443:443"  
 
 volumes:
   pg_data:
