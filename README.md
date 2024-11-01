@@ -1,7 +1,12 @@
 # FT_Transcendence
 
-1. `docker compose up`
-2. [http://127.0.0.1:5500/](http://127.0.0.1:5500/)
+Makefile 생성
+- 실행방법
+	1.make
+	2.https://127.0.0.1/ 으로 접속
+
+# ganache 도커 컨테이너 실행 없이 docker-compose up 명령어 수행 안됨
+# make 이용 추천
 
 ### 백엔드 요청관련 파일들
 - `/BE/pong/urls.py`

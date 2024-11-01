@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Player, GameResult
 from django.http import HttpResponse
+from pong import blockchain
 
 #example homepage
 def home(request):
@@ -17,6 +18,7 @@ def save_game_result(request):
     players_names = data.get('players')
     winner_name = data.get('winner-name')
 
+    blockchain.send.log(game_mode, players_names, winner_name)
     players = [Player.objects.get_or_create(name=name)[0] for name in players_names]
     winner, _ = Player.objects.get_or_create(name=winner_name)
 
