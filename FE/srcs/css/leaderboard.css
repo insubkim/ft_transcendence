@@ -1,0 +1,62 @@
+/* 전체 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+.leaderboard-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 순위표 스타일 */
+.leaderboard {
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px black;
+    border-radius: 10px;
+}
+
+.leaderboard h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: clamp(18px, 3vw, 24px);
+}
+
+.header-row, .player {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid gray;
+    font-size: clamp(12px, 1.8vw, 15px);
+}
+
+.header-row {
+    font-weight: bold;
+    background-color: #f0f0f0;
+}
+
+.header-row span, .player span {
+    text-align: left;
+    flex-basis: 30%;
+}
+
+.name-field {
+    flex-basis: 40%;
+}
+
+.score-field, .total-play-field {
+    flex-basis: 30%;
+}
+
+.leaderboard-list {
+    max-height: 50vh;
+    overflow-y: auto;
+    padding: 10px;
+}
