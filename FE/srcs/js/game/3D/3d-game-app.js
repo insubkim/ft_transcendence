@@ -466,7 +466,8 @@ export class ThreeGame {
 
 		this._setupCameras();
 		// this._setupControls();
-		window.onresize = this.resize.bind(this);
+		this._onWindowResize = this.resize.bind(this);
+		window.addEventListener('resize', this._onWindowResize);
 		this.resize();
 
 		ScoreBoard.init(gameNum);

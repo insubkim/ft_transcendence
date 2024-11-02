@@ -1,10 +1,9 @@
 const appContainer = document.getElementById("app");
-import { App } from "../game/2D/2d-game-option-select.js"; // 2D 전용 모듈로 경로 수정
 import { renderPage } from "../router.js";
 import { languages } from "../language.js";
 export let gameSettings = [];
 export let tourNicknames = [];
-export let TwoDsettingApp = null;
+// export let TwoDsettingApp = null;
 import { gameClear } from "./2d-tour-game.js"; // 2D 전용 게임 클리어 함수로 수정
 
 export function twoDTourSetting(currentLanguage) {
@@ -43,18 +42,18 @@ export function twoDTourSetting(currentLanguage) {
 
   if (startBtn && backBtn) {
     // 기존 App 인스턴스가 있다면 해제
-    if (TwoDsettingApp) {
-      TwoDsettingApp.dispose();
-      TwoDsettingApp = null;
-    }
+    // if (TwoDsettingApp) {
+    //   TwoDsettingApp.dispose();
+    //   TwoDsettingApp = null;
+    // }
 
     // 새로운 App 인스턴스 생성
-    TwoDsettingApp = new App();
-    TwoDsettingApp.startAnimation(); // 애니메이션 시작
+    // TwoDsettingApp = new App();
+    // TwoDsettingApp.startAnimation(); // 애니메이션 시작
 
     startBtn.addEventListener('click', () => {
-      TwoDsettingApp.dispose();
-      TwoDsettingApp = null;
+      // TwoDsettingApp.dispose();
+      // TwoDsettingApp = null;
 
       gameSettings = [];  // 기존 게임 설정을 초기화
       gameSettings.push(document.querySelector('input[name="color"]:checked'));

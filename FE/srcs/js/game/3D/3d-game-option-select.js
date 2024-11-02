@@ -25,7 +25,8 @@ export class App {
 		this._setupLight();
 		this._setupModel();
 
-		window.onresize = this.resize.bind(this);
+		this._onWindowResize = this.resize.bind(this);
+		window.addEventListener('resize', this._onWindowResize);
 		this.resize();
 
 		const speedOptions = document.querySelectorAll('input[name="speed"]');
@@ -91,6 +92,11 @@ export class App {
 		this._ballWire = null;
 		this._ballPosX = null;
 		this._ballPosZ = null;
+
+		if (this._onWindowResize) {
+			window.removeEventListener('resize', this._onWindowResize);
+			this._onWindowResize = null;
+		}
 
 		console.log("App resources have been disposed.");
 	}

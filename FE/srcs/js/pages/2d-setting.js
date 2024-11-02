@@ -1,11 +1,10 @@
 const appContainer = document.getElementById("app");
-import { App } from "../game/2D/2d-game-option-select.js";
 import { renderPage } from "../router.js";
 import { languages } from "../language.js";
 import { renameDuplicates } from "./2d-tour-setting.js";
 export let gameSettings = [];
 export let nicknames = [];
-export let TwoDsettingApp = null;
+// export let TwoDsettingApp = null;
 import { gameClear } from "./2d-game.js";
 
 export function twoDSetting(currentLanguage) {
@@ -42,19 +41,19 @@ export function twoDSetting(currentLanguage) {
 	const backBtn = document.getElementById('2d-back-button');
 
 	if (startBtn && backBtn) {
-		// 기존 App 인스턴스가 있다면 해제
-		if (TwoDsettingApp) {
-			TwoDsettingApp.dispose();
-			TwoDsettingApp = null;
-		}
+		// // 기존 App 인스턴스가 있다면 해제
+		// if (TwoDsettingApp) {
+		// 	TwoDsettingApp.dispose();
+		// 	TwoDsettingApp = null;
+		// }
 
-		// 새로운 App 인스턴스 생성
-		TwoDsettingApp = new App();
-		TwoDsettingApp.startAnimation(); // 애니메이션 시작 (만약 startAnimation 메서드를 분리했다면)
+		// // 새로운 App 인스턴스 생성
+		// TwoDsettingApp = new App();
+		// TwoDsettingApp.startAnimation(); // 애니메이션 시작 (만약 startAnimation 메서드를 분리했다면)
 
 		startBtn.addEventListener('click', () => {
-			TwoDsettingApp.dispose();
-			TwoDsettingApp = null;
+			// TwoDsettingApp.dispose();
+			// TwoDsettingApp = null;
 
 			gameSettings = [];  // 기존 게임 설정을 초기화
 			gameSettings.push(document.querySelector('input[name="color"]:checked'));

@@ -23,5 +23,7 @@ export function threeDGame() {
 }
 
 export function gameClear() {
+	console.log(gameApp);
 	gameApp.dispose();
+	gameApp = null;
 }

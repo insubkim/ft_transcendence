@@ -8,6 +8,7 @@ import { clearThreeTourSetting } from "./3d-tour-setting.js";
 export function gameSelect(currentLanguage) {
 	const is3DpongTour = document.getElementById("3dpongTour");
 	const is3Dpong = document.getElementById("3dpong");
+	console.log(is3Dpong);
 	if (is3DpongTour)
 		clearThreeTourSetting();
 	if (is3Dpong)
