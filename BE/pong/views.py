@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from .models import Player, GameResult
 from django.http import HttpResponse
 from pong import blockchain
+from django.http import JsonResponse
+from django.db.models import Count, Q
 
 #example homepage
 def home(request):
@@ -28,13 +30,57 @@ def save_game_result(request):
 
     return Response({"message": "Game result saved successfully"})
 
-#Return Game rankings
-@api_view(['GET'])
 def game_rankings(request):
-    rankings = {
-        '2d-1vs1-top5': [player.name for player in Player.objects.filter(gameresult__game_mode='2d-1vs1').order_by('-wins')[:5]],
-        '2d-tournament-top5': [player.name for player in Player.objects.filter(gameresult__game_mode='2d-tournament').order_by('-wins')[:5]],
-        '3d-1vs1-top5': [player.name for player in Player.objects.filter(gameresult__game_mode='3d-1vs1').order_by('-wins')[:5]],
-        '3d-tournament-top5': [player.name for player in Player.objects.filter(gameresult__game_mode='3d-tournament').order_by('-wins')[:5]],
+    # 상위 3명의 플레이어 조회 (기존 코드)
+    top_2d_1vs1 = Player.objects.annotate(
+        win_count=Count('wins', filter=Q(wins__game_mode='2d-1vs1'))
+    ).filter(win_count__gt=0).order_by('-win_count')[:3]
+
+    # 상위 5명의 플레이어 조회 - 2d-tournament
+    top_2d_tournament = Player.objects.annotate(
+        win_count=Count('wins', filter=Q(wins__game_mode='2d-tournament'))
+    ).filter(win_count__gt=0).order_by('-win_count')[:3]
+
+    # 상위 5명의 플레이어 조회 - 3d-1vs1
+    top_3d_1vs1 = Player.objects.annotate(
+        win_count=Count('wins', filter=Q(wins__game_mode='3d-1vs1'))
+    ).filter(win_count__gt=0).order_by('-win_count')[:3]
+
+    # 상위 5명의 플레이어 조회 - 3d-tournament
+    top_3d_tournament = Player.objects.annotate(
+        win_count=Count('wins', filter=Q(wins__game_mode='3d-tournament'))
+    ).filter(win_count__gt=0).order_by('-win_count')[:3]
+
+    # JSON 응답을 위한 데이터 준비
+    data = {
+        '2d-1vs1-top3': [
+            {
+                'name': player.name,
+                'win_count': player.win_count
+            }
+            for player in top_2d_1vs1
+        ],
+        '2d-tournament-top3': [
+            {
+                'name': player.name,
+                'win_count': player.win_count
+            }
+            for player in top_2d_tournament
+        ],
+        '3d-1vs1-top3': [
+            {
+                'name': player.name,
+                'win_count': player.win_count
+            }
+            for player in top_3d_1vs1
+        ],
+        '3d-tournament-top3': [
+            {
+                'name': player.name,
+                'win_count': player.win_count
+            }
+            for player in top_3d_tournament
+        ],
     }
-    return Response(rankings)
+
+    return JsonResponse(data)
