@@ -26,9 +26,13 @@ class send:
         bytecode = json_data['bytecode']
         '''
 
-        from solcx import compile_standard, install_solc
+        from solcx import compile_standard, install_solc, compile_solc, exceptions
 
-        install_solc('0.8.0')
+        try:
+            install_solc('0.8.0')
+        except exceptions.SolcInstallationError:
+            # Fallback to compiling solc from source if binary installation fails
+            compile_solc('0.8.0')
 
         with open("/app/blockchain/TTest.sol", "r") as f:
             solidity_code = f.read()

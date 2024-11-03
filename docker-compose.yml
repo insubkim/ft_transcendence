@@ -12,13 +12,14 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
 
+  # Backend web service
   web:
     build: ./BE
     env_file:
       - .env
     environment:
       DB_HOST: db
-      GANACHE_HTTP: http://host.docker.internal:8545
+      GANACHE_HTTP: http://ganache:8545   # Connects directly to the ganache service by name
       GANACHE_ACCOUNT: ${GANACHE_ACCOUNT}
       GANACHE_KEY: ${GANACHE_KEY}
     command: python manage.py runsslserver 0.0.0.0:443 --certificate /app/django.crt --key /app/django.key
@@ -29,7 +30,9 @@ services:
       - "8000:443"
     depends_on:
       - db
+      - ganache   # Ensures Ganache is running before starting
 
+  # Frontend service
   frontend:
     build: ./FE/.
     image: nginx:1.0
@@ -38,6 +41,14 @@ services:
       - ./FE:/usr/share/nginx/html
     ports:
       - "443:443"  
+
+  # Ganache service
+  ganache:
+    build:
+      context: ./ganache
+    container_name: ganache
+    ports:
+      - "8545:8545"
 
 volumes:
   pg_data:
