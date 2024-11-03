@@ -20,7 +20,12 @@ def save_game_result(request):
     players_names = data.get('players')
     winner_name = data.get('winner-name')
 
-    # blockchain.send.log(game_mode, players_names, winner_name)
+    import sys
+    import os
+    sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+    from blockchain import blockchain
+    blockchain.send.log(str(data.get('game-mode', '')), str(data.get('players', '')), str(data.get('winner-name', '')))
+
     players = [Player.objects.get_or_create(name=name)[0] for name in players_names]
     winner, _ = Player.objects.get_or_create(name=winner_name)
 

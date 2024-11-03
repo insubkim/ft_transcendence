@@ -93,14 +93,6 @@ class send:
 
     @classmethod
     def see(cls):
-        """
-        with open('/app/blockchain/TTest.abi', 'r') as f:
-            abi = json.load(f)
-        with open('/app/blockchain/TTest_addr', 'r') as f:
-            con_add = f.read()
-        checksum_add = Web3.to_checksum_address(con_add)
-        contract = cls.w3.eth.contract(address=checksum_add, abi=abi)
-        """
         contract = cls.contract()
 
         speak = contract.functions.speak().call()
@@ -108,21 +100,14 @@ class send:
 
     @classmethod
     def log(cls, mode, play, win):
-        '''
-        with open('/app/blockchain/TTest.abi', 'r') as f:
-            abi = json.load(f)
-        with open('/app/blockchain/TTest_addr', 'r') as f:
-            con_add = f.read()
-        checksum_add = Web3.to_checksum_address(con_add)
-        contract = cls.w3.eth.contract(address=checksum_add, abi=abi)
-        '''
+        player = play.strip("[]").replace("'", "")
         contract = cls.contract()
 
         account = Account.from_key(cls.ganache_key)
 
         cls.w3.eth.default_account = account.address
 
-        trans = contract.functions.write(mode, play, win).build_transaction({
+        trans = contract.functions.write(mode, player, win).build_transaction({
             'from': account.address,
             'nonce': cls.w3.eth.get_transaction_count(account.address),
             'gas': cls.gas_pay,
