@@ -16,7 +16,7 @@ class GameRenderer {
 		console.log(divContainer);
 		this._renderer.outputEncoding = THREE.sRGBEncoding;
     this._renderer.setSize(window.innerWidth, window.innerHeight);
-	
+
 	}
 
 	render(scene, camera) {
@@ -57,7 +57,7 @@ class GameScene {
     let ALight = new THREE.AmbientLight();
     PLight.position.set(0, 5, 0);
     this._scene.add(PLight, ALight);
-    
+
     const spotLight = new THREE.SpotLight(0xffffff, 10);
     spotLight.position.set(-3, 6, -3);
     this._scene.add(spotLight);
@@ -172,7 +172,7 @@ class GameController {
 		this._movePaddles();
 		await this._moveBall();
 	}
-  
+
 	_movePaddles() {
 		if (!this._controlsEnabled) return; // 컨트롤이 비활성화된 경우 패들 이동 중지
 
@@ -201,7 +201,7 @@ class GameController {
     const board_coord = {
       top : -0.9,
       bottom : 0.5,
-      left : -1.3, 
+      left : -1.3,
       right : 1.3
     }
 
@@ -219,7 +219,7 @@ class GameController {
 		) { // 아래
       console.log('hit board bottom!');
       this._ball_dyd = 0;
-    } 
+    }
 
     // 왼쪽
     if (sphere.position.x < cube1.position.x &&
@@ -255,7 +255,7 @@ class GameController {
       sphere.position.z = 0;
       return;
     }
-		
+
 		sphere.position.z += this._ball_dyd == 0 ? -1 * this._speed : 1 * this._speed;
     sphere.position.x += this._ball_dxd == 0 ? -1 * this._speed : 1 * this._speed;
 	}
@@ -320,7 +320,7 @@ class ScoreBoard {
 		})
 		.catch((error) => {
 				console.error('Error:', error);
-		});	
+		});
 	}
 
 	static showGameOver(playerInfo) {
@@ -344,7 +344,7 @@ class ScoreBoard {
 			returnBtn.addEventListener('click', () => renderPage('game-select'));
 			console.log('HERE');
 			//code for 1v1 result
-			
+
 			fetch('http://127.0.0.1:8000/api/save-game-result/', {
 				method: 'POST', // HTTP 메서드 설정
 				headers: {
@@ -352,8 +352,8 @@ class ScoreBoard {
 				},
 				body: JSON.stringify({ // 전송할 데이터
 						'game-mode': '2d-1vs1',
-						'players': ['insub', 'qwer'],
-						'winner-name': 'insub'
+						'players': [`${playerInfo.player1Name}`, `${playerInfo.player2Name}`],
+						'winner-name': `${winner}`
 				})
 			})
 			.then(response => response.json()) // 응답을 JSON으로 파싱
@@ -362,13 +362,13 @@ class ScoreBoard {
 			})
 			.catch((error) => {
 					console.error('Error:', error);
-			});	
+			});
 		}
 		else {
 			winners.push(winner);
 			tourNicknames.push(winner);
 			returnBtn.textContent = 'Check results';
-			returnBtn.addEventListener('click', () => renderPage('2d-check-results')); 
+			returnBtn.addEventListener('click', () => renderPage('2d-check-results'));
 		}
 		gameOverText.appendChild(returnBtn);
 

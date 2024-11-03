@@ -74,8 +74,8 @@ export function twoDSetting(currentLanguage) {
 		})
 
 		backBtn.addEventListener('click', () => {
-			TwoDsettingApp.dispose();
-			TwoDsettingApp = null;
+			// TwoDsettingApp.dispose();
+			// TwoDsettingApp = null;
 			renderPage('2d-mode-select');
 		})
 	}

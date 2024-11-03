@@ -14,6 +14,7 @@ import { threeDTourSetting } from './pages/3d-tour-setting.js';
 import { threeDGame } from './pages/3d-game.js'
 import { threeDTourGame } from './pages/3d-tour-game.js';
 import { threeCheckTourResults } from './pages/3d-check-results.js';
+import { hideLeaderboard, showLeaderboard } from './leaderboard.js';
 
 const funcArray = [gameSelect,
 									twoDModeSel, twoDSetting, twoDTourSetting,threeDModeSel, threeDSetting, twoDGame, twoDTourGame,
@@ -56,8 +57,10 @@ export function renderPage(hash) {
 	window.location.hash = `#${currentLang}/` + hash;
 
 	const langSetting = document.getElementById("globe-icon");
-	if (idx < 5 && window.getComputedStyle(langSetting).display === "none")
+	if (idx < 5 && window.getComputedStyle(langSetting).display === "none") {
 		langSetting.style.display = "block";
+		showLeaderboard();
+	}
 
 	setTimeout(() => { ignoreHashChange =false; }, 50);
 }

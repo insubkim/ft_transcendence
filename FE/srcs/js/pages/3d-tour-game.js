@@ -4,6 +4,8 @@ import { ThreeGame } from '../game/3D/3d-game-app.js'
 import { threeGameSettings } from './3d-tour-setting.js';
 import { threeTourNicknames } from './3d-tour-setting.js';
 import { winners } from '../game/3D/3d-game-app.js';
+import { hideLeaderboard } from '../leaderboard.js';
+
 
 let gameApp = null;
 let gameNum = 0;
@@ -15,6 +17,7 @@ export function threeDTourGame() {
 
 	gameNum += 1;
 	langSetting.style.display = "none";
+	hideLeaderboard();
 	const pongGame = document.getElementById('3dpongTour');
 
 	if (pongGame) {

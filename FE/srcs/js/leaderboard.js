@@ -71,5 +71,15 @@ function updateLeaderboard(modeKey, modeIndex, listId) {
     }
 }
 
+
+export function showLeaderboard() {
+    container.style.display = '';
+}
+
+// 리더보드를 숨기는 함수
+export function hideLeaderboard() {
+    container.style.display = 'none';
+}
+
 // 각 모드에 맞는 순위표 업데이트 호출
 modes.forEach(mode => updateLeaderboard(mode.modeKey, mode.modeIndex, mode.id));

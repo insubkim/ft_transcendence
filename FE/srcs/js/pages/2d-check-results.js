@@ -39,8 +39,25 @@ export function twoCheckTourResults(currentLanguage) {
 
 	if (backBtn) {
 		backBtn.addEventListener('click', () => {
+			fetch('http://127.0.0.1:8000/api/save-game-result/', {
+				method: 'POST', // HTTP 메서드 설정
+				headers: {
+						'Content-Type': 'application/json', // 전송할 데이터의 형식 지정
+				},
+				body: JSON.stringify({ // 전송할 데이터
+						'game-mode': '3d-tournament',
+						'players': [`${tourNicknames[0]}`, `${tourNicknames[1]}`, `${tourNicknames[2]}`, `${tourNicknames[3]}`],
+						'winner-name': `${tourNicknames[6]}`
+				})
+			})
+			.then(response => response.json()) // 응답을 JSON으로 파싱
+			.then(data => {
+					console.log('Success:', data);
+			})
+			.catch((error) => {
+					console.error('Error:', error);
+			});
 			renderPage('game-select');
-			// 결과정보 보내기..
 		})
 	}
 }

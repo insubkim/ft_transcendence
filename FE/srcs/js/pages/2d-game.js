@@ -3,6 +3,7 @@ const langSetting = document.getElementById("globe-icon");
 import { TwoGame } from '../game/2D/2d-game-app.js'
 import { gameSettings } from './2d-setting.js';
 import { nicknames } from './2d-setting.js';
+import { hideLeaderboard } from '../leaderboard.js';
 let gameApp = null;
 
 export function twoDGame() {
@@ -11,6 +12,7 @@ export function twoDGame() {
 	`
 
 	langSetting.style.display = "none";
+	hideLeaderboard();
 	const pongGame = document.getElementById('2dpong');
 
 	if (pongGame) {
