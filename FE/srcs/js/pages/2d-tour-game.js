@@ -4,7 +4,7 @@ import { TwoGame } from '../game/2D/2d-game-app.js';
 import { gameSettings } from './2d-tour-setting.js';
 import { tourNicknames } from './2d-tour-setting.js';
 import { winners } from '../game/2D/2d-game-app.js';
-
+import { hideLeaderboard } from '../leaderboard.js';
 let gameApp = null;
 let gameNum = 0;
 
@@ -15,6 +15,7 @@ export function twoDTourGame() {
 
     gameNum += 1;
     langSetting.style.display = "none";
+    hideLeaderboard();
     const pongGame = document.getElementById('2dpong');
 
     if (pongGame) {

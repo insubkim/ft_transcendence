@@ -3,6 +3,7 @@ const langSetting = document.getElementById("globe-icon");
 import { ThreeGame } from '../game/3D/3d-game-app.js'
 import { gameSettings } from './3d-setting.js';
 import { nicknames } from './3d-setting.js';
+import { hideLeaderboard } from '../leaderboard.js';
 let gameApp = null;
 
 export function threeDGame() {
@@ -11,6 +12,7 @@ export function threeDGame() {
 	`
 
 	langSetting.style.display = "none";
+	hideLeaderboard();
 	const pongGame = document.getElementById('3dpong');
 
 	if (pongGame) {

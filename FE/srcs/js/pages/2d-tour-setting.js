@@ -80,8 +80,8 @@ export function twoDTourSetting(currentLanguage) {
     });
 
     backBtn.addEventListener('click', () => {
-      TwoDsettingApp.dispose();
-      TwoDsettingApp = null;
+      // TwoDsettingApp.dispose();
+      // TwoDsettingApp = null;
       renderPage('2d-mode-select'); // 2D 모드 선택 페이지로 돌아가기
     });
   }
