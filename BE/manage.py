@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
-from pong import blockchain
+# from pong import blockchain
+from dotenv import load_dotenv  # Import load_dotenv to load environment variables
 import os
 import sys
+load_dotenv()  # Load environment variables from .env
 
 def main():
     """Run administrative tasks."""
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "BE.settings")
+    from pong import blockchain  # Moved import here to ensure env variables are loaded
     blockchain.send.code()
     try:
         from django.core.management import execute_from_command_line
