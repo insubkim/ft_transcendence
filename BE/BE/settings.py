@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'pong',
+    'sslserver',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -88,7 +89,7 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),  # Default to localhost
+        'HOST': os.getenv('DB_HOST', 'db'),  # Default to db
         'PORT': os.getenv('DB_PORT', '5432'),       # Default to 5432
     }
 }

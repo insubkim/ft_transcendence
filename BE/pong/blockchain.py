@@ -36,7 +36,9 @@ class send:
         else:
             print("ok")
 
-        with open('/app/TTest.json') as f:
+        # Update the path to TTest.json using a relative path
+        json_path = os.path.join(os.path.dirname(__file__), '../TTest.json')
+        with open(json_path) as f:
             json_data = json.load(f)
         abi = json_data['abi']
         bytecode = json_data['bytecode']
@@ -58,7 +60,7 @@ class send:
 
     @classmethod
     def log(cls, mode, play, win):
-        with open('/add/TTest.json') as f:
+        with open('/app/TTest.json') as f:
             json_data = json.load(f)
 
         abi = json_data['abi']

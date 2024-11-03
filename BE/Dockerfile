@@ -16,8 +16,8 @@ RUN pip install django-cors-headers
 # Copy the rest of the application code into the container
 COPY . /app
 
-# Make port 8000 available to the world outside this container
-EXPOSE 8000
+# Make port 443 available to the world outside this container
+EXPOSE 443
 
 # Run the Django server
 ENTRYPOINT ["sh", "/app/start.sh"]

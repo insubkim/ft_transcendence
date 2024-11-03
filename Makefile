@@ -3,7 +3,7 @@ BLOCK_IMG	=	tran_ganache
 BLOCK_CON	=	block_test_env
 
 all: block_up
-	docker-compose $(COMPOSE) up
+	docker compose $(COMPOSE) up
 
 build:
 	docker-compose $(COMPOSE) up --build
@@ -26,7 +26,7 @@ clean: down
 	docker system prune -a --force
 
 fclean:
-	docker-compose $(COMPOSE) down -v
+	docker compose $(COMPOSE) down -v
 	docker system prune --all --force --volumes
 	docker stop $(BLOCK_CON)
 	docker rm $(BLOCK_CON)

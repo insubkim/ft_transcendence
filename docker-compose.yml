@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_DB: ft_transcendence
       POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -14,11 +14,14 @@ services:
 
   web:
     build: ./BE
+    env_file:
+      - .env
     environment:
+      DB_HOST: db
       GANACHE_HTTP: http://host.docker.internal:8545
       GANACHE_ACCOUNT: ${GANACHE_ACCOUNT}
       GANACHE_KEY: ${GANACHE_KEY}
-    command: python manage.py runserver 0.0.0.0:443
+    command: python manage.py runsslserver 0.0.0.0:443 --certificate /app/django.crt --key /app/django.key
     volumes:
       - ./BE:/app
     working_dir: /app
