@@ -439,7 +439,7 @@ class ScoreBoard {
 			console.log('HERE');
 			//code for 1v1 result
 
-			fetch('http://127.0.0.1:8000/api/save-game-result/', {
+			fetch('https://127.0.0.1:8000/api/save-game-result/', {
 				method: 'POST', // HTTP 메서드 설정
 				headers: {
 						'Content-Type': 'application/json', // 전송할 데이터의 형식 지정
